@@ -6,7 +6,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       className={cn(
-        "rounded-[1.75rem] border border-neutral-200/80 bg-white/80 text-neutral-950 shadow-[0_24px_80px_-48px_rgba(10,30,22,.35)] backdrop-blur-xl",
+        "rounded-3xl border border-[#d7e8ef] bg-white text-[#091e29] shadow-[0_18px_46px_-34px_rgba(11,38,54,.32)]",
         className,
       )}
       {...props}
@@ -15,26 +15,18 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("flex flex-col gap-1.5 p-6", className)} {...props} />
-  );
+  return <div className={cn("flex flex-col gap-1.5 p-6", className)} {...props} />;
 }
 
 function CardTitle({ className, ...props }: React.ComponentProps<"h3">) {
   return (
-    <h3
-      className={cn("text-xl font-semibold tracking-tight", className)}
-      {...props}
-    />
+    <h3 className={cn("text-xl font-bold tracking-[-0.04em]", className)} {...props} />
   );
 }
 
 function CardDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
-    <p
-      className={cn("text-sm leading-6 text-neutral-500", className)}
-      {...props}
-    />
+    <p className={cn("text-sm leading-6 text-[#6f8290]", className)} {...props} />
   );
 }
 
@@ -43,16 +35,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div className={cn("flex items-center p-6 pt-0", className)} {...props} />
-  );
+  return <div className={cn("flex items-center p-6 pt-0", className)} {...props} />;
 }
 
-export {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-};
+export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle };

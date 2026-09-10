@@ -2,7 +2,9 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AnimatePresence, motion } from "motion/react";
+import Link from "next/link";
 import {
+  FolderPlus,
   ImageUp,
   LoaderCircle,
   ScanFace,
@@ -10,7 +12,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 import { ImageCard } from "@/components/gallery/image-card";
 import { Badge } from "@/components/ui/badge";
@@ -21,19 +23,44 @@ import { ApiError, apiRequest } from "@/lib/api";
 import {
   imageCollectionSchema,
   searchImageSchema,
+  type Gallery,
   type GalleryImage,
   type SearchImageValues,
 } from "@/lib/schemas";
 
-export function SearchWorkspace() {
+export function SearchWorkspace({
+  galleries,
+  initialGalleryUid,
+}: {
+  galleries: Gallery[];
+  initialGalleryUid?: string;
+}) {
   const [results, setResults] = useState<GalleryImage[]>([]);
   const [hasSearched, setHasSearched] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const form = useForm<SearchImageValues>({
     resolver: zodResolver(searchImageSchema),
-    defaultValues: { limit: 20 },
+    defaultValues: {
+      gallery_uid:
+        galleries.find((gallery) => gallery.uid === initialGalleryUid)?.uid ??
+        galleries[0]?.uid ??
+        "",
+      limit: 20,
+    },
   });
-  const fileField = form.register("image");
+  const selectedGalleryUid = useWatch({
+    control: form.control,
+    name: "gallery_uid",
+  });
+  const selectedGallery = galleries.find(
+    (gallery) => gallery.uid === selectedGalleryUid,
+  );
+  const {
+    name: fileFieldName,
+    ref: fileFieldRef,
+    onBlur: fileFieldOnBlur,
+    onChange: fileFieldOnChange,
+  } = form.register("image");
 
   useEffect(
     () => () => {
@@ -52,10 +79,13 @@ export function SearchWorkspace() {
     body.set("limit", String(values.limit));
 
     try {
-      const payload = await apiRequest<unknown>("images/search", {
-        method: "POST",
-        body,
-      });
+      const payload = await apiRequest<unknown>(
+        `galleries/${values.gallery_uid}/images/search`,
+        {
+          method: "POST",
+          body,
+        },
+      );
       setResults(imageCollectionSchema.parse(payload).data);
       setHasSearched(true);
     } catch (error) {
@@ -74,12 +104,12 @@ export function SearchWorkspace() {
           <Badge>
             <Sparkles className="size-3" /> Vector search
           </Badge>
-          <h1 className="display-type mt-5 text-6xl leading-[.95]">
-            Search by face, not filename.
+          <h1 className="display-type mt-5 text-4xl leading-[.95] sm:text-6xl">
+            Search faces inside one gallery.
           </h1>
-          <p className="mt-4 text-sm leading-7 text-neutral-500">
-            Drop in a face or group photo. FMI compares every detected person
-            with every accessible gallery image.
+          <p className="mt-4 text-sm leading-7 text-[#6f8290]">
+            Choose the collection first, then drop in a face or group photo.
+            Results never spill into a different gallery.
           </p>
 
           <form
@@ -87,6 +117,28 @@ export function SearchWorkspace() {
             className="mt-8 grid gap-4"
             noValidate
           >
+            <Field
+              label="Gallery scope"
+              htmlFor="search-gallery"
+              hint="Required"
+              error={form.formState.errors.gallery_uid?.message}
+            >
+              <select
+                id="search-gallery"
+                className="h-13 w-full min-w-0 rounded-xl border border-transparent bg-[#eaf5ff] px-4 text-sm font-bold text-[#091e29] outline-none focus:border-[#30afff] focus:ring-2 focus:ring-[#30afff]/20"
+                {...form.register("gallery_uid", {
+                  onChange: () => {
+                    setResults([]);
+                    setHasSearched(false);
+                  },
+                })}
+              >
+                {galleries.length ? null : <option value="">No galleries available</option>}
+                {galleries.map((gallery) => (
+                  <option key={gallery.uid} value={gallery.uid}>{gallery.name}</option>
+                ))}
+              </select>
+            </Field>
             <Field
               label="Search image"
               htmlFor="search-image"
@@ -97,11 +149,11 @@ export function SearchWorkspace() {
                 id="search-image"
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
-                name={fileField.name}
-                ref={fileField.ref}
-                onBlur={fileField.onBlur}
+                name={fileFieldName}
+                ref={fileFieldRef}
+                onBlur={fileFieldOnBlur}
                 onChange={(event) => {
-                  fileField.onChange(event);
+                  fileFieldOnChange(event);
                   const file = event.target.files?.[0];
                   if (preview) URL.revokeObjectURL(preview);
                   setPreview(file ? URL.createObjectURL(file) : null);
@@ -112,7 +164,7 @@ export function SearchWorkspace() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="relative aspect-[4/3] overflow-hidden rounded-[1.5rem] bg-neutral-900"
+                className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#07141d]"
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center"
@@ -120,16 +172,16 @@ export function SearchWorkspace() {
                     backgroundImage: `url(${JSON.stringify(preview).slice(1, -1)})`,
                   }}
                 />
-                <div className="absolute inset-5 rounded-2xl border border-emerald-300/70">
-                  <span className="absolute -left-px -top-px size-4 border-l-2 border-t-2 border-emerald-300" />
-                  <span className="absolute -bottom-px -right-px size-4 border-b-2 border-r-2 border-emerald-300" />
+                <div className="absolute inset-5 rounded-2xl border border-[#92eeff]/70">
+                  <span className="absolute -left-px -top-px size-4 border-l-2 border-t-2 border-[#92eeff]" />
+                  <span className="absolute -bottom-px -right-px size-4 border-b-2 border-r-2 border-[#92eeff]" />
                 </div>
               </motion.div>
             ) : (
-              <div className="grid aspect-[4/3] place-items-center rounded-[1.5rem] border border-dashed border-neutral-300 bg-white/45 text-center">
+              <div className="system-grid grid aspect-[4/3] place-items-center rounded-2xl border border-dashed border-[#cde5ef] bg-[#eaf5ff] text-center">
                 <div>
-                  <ImageUp className="mx-auto size-8 text-emerald-600" />
-                  <p className="mt-3 text-xs font-semibold text-neutral-400">
+                  <ImageUp className="mx-auto size-8 text-[#006397]" />
+                  <p className="mt-3 text-xs font-semibold text-[#6f8290]">
                     Preview appears here
                   </p>
                 </div>
@@ -157,29 +209,34 @@ export function SearchWorkspace() {
               type="submit"
               size="lg"
               className="w-full"
-              disabled={form.formState.isSubmitting}
+              disabled={form.formState.isSubmitting || !galleries.length}
             >
               {form.formState.isSubmitting ? (
                 <LoaderCircle className="animate-spin" />
               ) : (
                 <Search />
               )}
-              Search every gallery
+              Search selected gallery
             </Button>
+            {!galleries.length ? (
+              <Button asChild variant="outline" className="w-full">
+                <Link href="/dashboard?create=1"><FolderPlus /> Create a gallery first</Link>
+              </Button>
+            ) : null}
           </form>
         </div>
       </div>
 
-      <div className="min-h-[34rem] border-t border-neutral-200 pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
-        <div className="flex items-end justify-between gap-5">
+      <div className="min-h-[34rem] border-t border-[#d7e8ef] pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+        <div className="flex flex-wrap items-end justify-between gap-5">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-emerald-700">
-              Face matches
+            <p className="technical-label text-[#006397]">
+              Face matches / {selectedGallery?.name ?? "choose gallery"}
             </p>
             <h2 className="display-type mt-2 text-4xl">Closest frames</h2>
           </div>
           {hasSearched ? (
-            <span className="text-xs font-semibold text-neutral-400">
+            <span className="text-xs font-semibold text-[#6f8290]">
               {results.length} results
             </span>
           ) : null}
@@ -192,7 +249,13 @@ export function SearchWorkspace() {
               className="mt-7 grid gap-5 sm:grid-cols-2 xl:grid-cols-3"
             >
               {results.map((image, index) => (
-                <ImageCard key={image.uid} image={image} index={index} />
+                <ImageCard
+                  key={image.uid}
+                  image={image}
+                  index={index}
+                  href={selectedGalleryUid ? `/galleries/${selectedGalleryUid}/images/${image.uid}` : undefined}
+                  sharePath={selectedGalleryUid ? `/galleries/${selectedGalleryUid}/images/${image.uid}` : undefined}
+                />
               ))}
             </motion.div>
           ) : (
@@ -200,10 +263,10 @@ export function SearchWorkspace() {
               key={hasSearched ? "empty" : "start"}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="mt-7 grid min-h-[28rem] place-items-center rounded-[2rem] border border-dashed border-neutral-300 bg-white/45 p-8 text-center"
+              className="system-grid mt-7 grid min-h-[28rem] place-items-center rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff]/65 p-8 text-center"
             >
               <div>
-                <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-emerald-100 text-emerald-700">
+                <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#d1e5f5] text-[#006397]">
                   <ScanFace className="size-7" />
                 </span>
                 <h3 className="mt-5 text-xl font-bold">
@@ -211,7 +274,7 @@ export function SearchWorkspace() {
                     ? "No close faces found"
                     : "Your results will build here"}
                 </h3>
-                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-neutral-500">
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-[#6f8290]">
                   {hasSearched
                     ? "Try a brighter, front-facing image or expand the number of results."
                     : "We will rank matches by the strongest face-to-face cosine similarity."}

@@ -1,23 +1,16 @@
 import Link from "next/link";
-import { Aperture } from "lucide-react";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-10 border-t border-neutral-200 py-8">
-      <div className="page-shell flex flex-col items-center justify-between gap-5 text-center sm:flex-row sm:text-left">
-        <Link href="/" className="flex items-center gap-2 text-sm font-black">
-          <Aperture className="size-4 text-emerald-600" /> FMI
+    <footer className="mt-14 hidden border-t border-[#d7e8ef] py-8 md:block">
+      <div className="page-shell flex items-center justify-between gap-6 text-[11px] text-[#6f8290]">
+        <Link href="/" className="flex items-center gap-2 font-black text-[#091e29]">
+          <span className="size-2 rounded-full bg-[#30afff]" /> fmi
         </Link>
-        <p className="text-xs text-neutral-400">
-          Face-first discovery for curated image libraries.
-        </p>
-        <div className="flex gap-5 text-xs font-semibold text-neutral-500">
-          <Link href="/explore" className="hover:text-emerald-700">
-            Explore
-          </Link>
-          <Link href="/login" className="hover:text-emerald-700">
-            Workspace
-          </Link>
+        <p>Precision visual indexing for curated image libraries.</p>
+        <div className="flex gap-5 font-bold">
+          <Link href="/explore" className="hover:text-[#006397]">Discover</Link>
+          <Link href="/login" className="hover:text-[#006397]">Workspace</Link>
         </div>
       </div>
     </footer>

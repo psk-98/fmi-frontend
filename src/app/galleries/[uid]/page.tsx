@@ -15,7 +15,7 @@ export default async function GalleryStudioPage({ params }: PageProps) {
   if (!gallery) notFound();
 
   return (
-    <section className="page-shell py-12 sm:py-16">
+    <section className="page-shell py-10 sm:py-16">
       <GalleryStudio initialGallery={gallery} />
     </section>
   );

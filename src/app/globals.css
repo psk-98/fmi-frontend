@@ -1,11 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f2;
-  --foreground: #111714;
-  --emerald: #10b981;
-  --emerald-deep: #064e3b;
-  --line: rgba(23, 37, 31, 0.12);
+  --canvas: #f7fcff;
+  --surface: #ffffff;
+  --surface-low: #eaf5ff;
+  --surface-high: #d7ebfa;
+  --ink: #091e29;
+  --ink-soft: #3f5663;
+  --muted: #6f8290;
+  --line: #d7e8ef;
+  --line-strong: #cde5ef;
+  --primary: #30afff;
+  --primary-deep: #006397;
+  --cyan: #92eeff;
+  --mint: #d8ffc5;
+  --success: #1f9d64;
+  --danger: #d9535f;
+  --warning: #c77b00;
 }
 
 * {
@@ -19,32 +30,22 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(
-      circle at 12% 8%,
-      rgba(16, 185, 129, 0.09),
-      transparent 26rem
-    ),
-    radial-gradient(
-      circle at 88% 14%,
-      rgba(110, 231, 183, 0.09),
-      transparent 22rem
-    ),
-    var(--background);
-  color: var(--foreground);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
+    radial-gradient(circle at 8% 5%, rgb(146 238 255 / 16%), transparent 24rem),
+    radial-gradient(circle at 94% 10%, rgb(216 255 197 / 18%), transparent 26rem),
+    var(--canvas);
+  color: var(--ink);
+  font-family: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", monospace;
   text-rendering: optimizeLegibility;
 }
 
+main {
+  min-height: calc(100vh - 4rem);
+}
+
 ::selection {
-  background: rgba(16, 185, 129, 0.25);
-  color: #052e25;
+  background: var(--cyan);
+  color: var(--ink);
 }
 
 button,
@@ -56,27 +57,45 @@ select {
 }
 
 .display-type {
+  font-family: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas,
+    monospace;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+}
+
+.editorial-type {
   font-family: Georgia, "Times New Roman", serif;
-  font-weight: 500;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
 }
 
 .page-shell {
-  width: min(100% - 2rem, 78rem);
+  width: min(100% - 2rem, 82rem);
   margin-inline: auto;
+}
+
+.system-grid {
+  background-image: radial-gradient(rgb(0 99 151 / 19%) 0.75px, transparent 0.75px);
+  background-size: 16px 16px;
 }
 
 .mesh-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(rgb(146 238 255 / 10%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(146 238 255 / 10%) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
 .image-wash {
   background:
-    linear-gradient(135deg, rgba(6, 78, 59, 0.82), rgba(16, 185, 129, 0.22)),
-    radial-gradient(circle at 70% 24%, #a7f3d0, transparent 28%), #0c2019;
+    linear-gradient(135deg, rgb(0 64 99 / 88%), rgb(48 175 255 / 22%)),
+    radial-gradient(circle at 70% 24%, #92eeff, transparent 28%), #07141d;
+}
+
+.technical-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .scrollbar-none {
@@ -87,8 +106,18 @@ select {
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 5.25rem;
+  }
+
   .page-shell {
-    width: min(100% - 1.25rem, 78rem);
+    width: min(100% - 1.25rem, 82rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

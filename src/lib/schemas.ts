@@ -8,6 +8,14 @@ export const userSchema = z.object({
   created_at: z.string().nullable().optional(),
 });
 
+const galleryOwnerSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.email().nullish(),
+  role: z.enum(["admin", "moderator", "user"]).nullish(),
+  created_at: z.string().nullish(),
+});
+
 const gallerySummarySchema = z.object({
   uid: z.string(),
   name: z.string(),
@@ -37,7 +45,7 @@ export const galleryImageSchema = z.object({
 });
 
 export const gallerySchema = gallerySummarySchema.extend({
-  owner: userSchema.optional(),
+  owner: galleryOwnerSchema.optional(),
   images_count: z.number().optional(),
   images: z.array(galleryImageSchema).default([]),
   created_at: z.string().nullable().optional(),
@@ -66,6 +74,19 @@ export const loginFormSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters."),
 });
 
+export const registerFormSchema = z
+  .object({
+    name: z.string().trim().min(2, "Enter your name.").max(255),
+    email: z.email("Enter a valid email address."),
+    password: z.string().min(10, "Password must be at least 10 characters."),
+    password_confirmation: z.string(),
+    terms: z.boolean().refine((accepted) => accepted, "Accept the curation guidelines."),
+  })
+  .refine((values) => values.password === values.password_confirmation, {
+    message: "Passwords do not match.",
+    path: ["password_confirmation"],
+  });
+
 export const createGallerySchema = z.object({
   name: z.string().trim().min(2, "Give your gallery a name.").max(255),
   description: z
@@ -77,25 +98,31 @@ export const createGallerySchema = z.object({
 });
 
 export const uploadImageSchema = z.object({
-  image: z
+  images: z
     .custom<FileList>(
       (value): value is FileList =>
         typeof FileList !== "undefined" &&
         value instanceof FileList &&
-        value.length === 1,
-      "Choose an image.",
+        value.length >= 1 &&
+        value.length <= 5,
+      "Choose between 1 and 5 images.",
     )
     .refine(
-      (files) => !files?.[0] || files[0].size <= 10 * 1024 * 1024,
-      "Maximum size is 10 MB.",
+      (files) => !files || Array.from(files).every((file) => file.size <= 10 * 1024 * 1024),
+      "Each image must be 10 MB or smaller.",
+    )
+    .refine(
+      (files) =>
+        !files ||
+        Array.from(files).every((file) =>
+          ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+        ),
+      "Only JPG, PNG, and WebP images are supported.",
     ),
-  celebrity_name: z.string().trim().max(255),
-  description: z.string().trim().max(2000),
-  tags: z.string().max(500),
-  is_public: z.boolean(),
 });
 
 export const searchImageSchema = z.object({
+  gallery_uid: z.string().min(1, "Choose a gallery to search."),
   image: z
     .custom<FileList>(
       (value): value is FileList =>
@@ -115,6 +142,7 @@ export type User = z.infer<typeof userSchema>;
 export type Gallery = z.infer<typeof gallerySchema>;
 export type GalleryImage = z.infer<typeof galleryImageSchema>;
 export type LoginFormValues = z.infer<typeof loginFormSchema>;
+export type RegisterFormValues = z.infer<typeof registerFormSchema>;
 export type CreateGalleryValues = z.infer<typeof createGallerySchema>;
 export type UploadImageValues = z.infer<typeof uploadImageSchema>;
 export type SearchImageValues = z.infer<typeof searchImageSchema>;

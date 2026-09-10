@@ -5,77 +5,74 @@ import { ArrowUpRight, Images, LockKeyhole } from "lucide-react";
 import { motion } from "motion/react";
 
 import { Badge } from "@/components/ui/badge";
+import { ShareButton } from "@/components/ui/share-button";
 import type { Gallery } from "@/lib/schemas";
 import { formatDate } from "@/lib/utils";
 
-export function GalleryCard({
-  gallery,
-  href,
-}: {
-  gallery: Gallery;
-  href: string;
-}) {
+export function GalleryCard({ gallery, href }: { gallery: Gallery; href: string }) {
   const cover = gallery.images[0];
+  const frameCount = gallery.images_count ?? gallery.images.length;
 
   return (
     <motion.article
       layout
-      whileHover={{ y: -6 }}
+      whileHover={{ y: -5 }}
       transition={{ type: "spring", stiffness: 360, damping: 28 }}
+      className="relative h-full"
     >
       <Link
         href={href}
-        className="group block overflow-hidden rounded-[1.75rem] border border-neutral-200/80 bg-white shadow-[0_24px_70px_-48px_rgba(10,30,22,.45)]"
+        className="group block h-full overflow-hidden rounded-2xl border border-[#d7e8ef] bg-white p-2 shadow-[0_18px_50px_-38px_rgba(11,38,54,.48)]"
       >
-        <div className="relative aspect-[4/3] overflow-hidden bg-neutral-900">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] bg-[#d7ebfa]">
           {cover ? (
             <div
               role="img"
-              aria-label={
-                cover.celebrity_name || cover.original_name || gallery.name
-              }
+              aria-label={cover.celebrity_name || cover.original_name || gallery.name}
               className="absolute inset-0 bg-cover bg-center transition duration-700 group-hover:scale-105"
-              style={{
-                backgroundImage: `url(${JSON.stringify(cover.url).slice(1, -1)})`,
-              }}
+              style={{ backgroundImage: `url(${JSON.stringify(cover.url).slice(1, -1)})` }}
             />
           ) : (
-            <div className="image-wash mesh-grid absolute inset-0 grid place-items-center">
-              <Images className="size-10 text-emerald-200/80" />
+            <div className="system-grid absolute inset-0 grid place-items-center bg-gradient-to-br from-[#eaf5ff] via-[#92eeff]/35 to-[#d8ffc5]/70">
+              <Images className="size-10 text-[#006397]" />
             </div>
           )}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/60 to-transparent" />
-          <div className="absolute left-4 top-4 flex gap-2">
-            <Badge
-              variant={gallery.visibility === "public" ? "default" : "dark"}
-            >
-              {gallery.visibility === "private" ? (
-                <LockKeyhole className="size-3" />
-              ) : null}
-              {gallery.visibility}
+          <div className="absolute left-0 top-0 p-3">
+            <Badge variant={gallery.visibility === "public" ? "dark" : "neutral"}>
+              <span className={`size-1.5 rounded-full ${gallery.visibility === "public" ? "bg-[#d8ffc5]" : "bg-[#6f8290]"}`} />
+              {gallery.visibility === "private" ? <LockKeyhole className="size-3" /> : null}
+              {gallery.visibility} / {frameCount.toString().padStart(2, "0")}
             </Badge>
           </div>
-          <span className="absolute bottom-4 right-4 grid size-10 place-items-center rounded-full bg-white/90 text-neutral-950 opacity-0 backdrop-blur transition group-hover:opacity-100">
-            <ArrowUpRight className="size-4" />
-          </span>
         </div>
-        <div className="p-5">
+
+        <div className="px-2 pb-2 pt-4">
           <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="text-lg font-bold tracking-[-0.025em] text-neutral-950">
+            <div className="min-w-0">
+              <h3 className="editorial-type truncate text-xl font-semibold text-[#091e29]">
                 {gallery.name}
               </h3>
-              <p className="mt-1 line-clamp-2 text-sm leading-6 text-neutral-500">
-                {gallery.description}
+              <p className="mt-1 line-clamp-2 text-xs leading-5 text-[#6f8290]">
+                {gallery.description || "A precision visual collection."}
               </p>
             </div>
+            <span className="grid size-9 shrink-0 place-items-center rounded-full bg-[#eaf5ff] text-[#006397] transition group-hover:bg-[#30afff] group-hover:text-[#07141d]">
+              <ArrowUpRight className="size-4" />
+            </span>
           </div>
-          <div className="mt-5 flex items-center justify-between border-t border-neutral-100 pt-4 text-xs font-semibold text-neutral-400">
-            <span>{gallery.images_count ?? gallery.images.length} frames</span>
+          <div className="mt-4 flex items-center justify-between border-t border-[#eaf5ff] pt-3 text-[9px] uppercase tracking-[0.08em] text-[#7b8e9b]">
+            <span>{frameCount} indexed frames</span>
             <span>{formatDate(gallery.created_at)}</span>
           </div>
         </div>
       </Link>
+      <ShareButton
+        path={href}
+        label={gallery.name}
+        iconOnly
+        variant="dark"
+        className="absolute right-5 top-5 z-20 size-9 bg-[#20333e]/90 backdrop-blur"
+      />
     </motion.article>
   );
 }
