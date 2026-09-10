@@ -36,7 +36,7 @@ export const galleryImageSchema = z.object({
   tags: z.array(z.string()).default([]),
   face_count: z.number().optional(),
   processing_status: z.enum(["pending", "processing", "processed", "failed"]),
-  moderation_status: z.enum(["pending", "approved", "rejected"]),
+  moderation_status: z.enum(["pending", "approved", "rejected"]).optional(),
   is_public: z.boolean(),
   gallery: gallerySummarySchema.optional(),
   similarity: z.number().optional(),
@@ -99,22 +99,22 @@ export const createGallerySchema = z.object({
 
 export const uploadImageSchema = z.object({
   images: z
-    .custom<FileList>(
-      (value): value is FileList =>
-        typeof FileList !== "undefined" &&
-        value instanceof FileList &&
-        value.length >= 1 &&
-        value.length <= 5,
-      "Choose between 1 and 5 images.",
+    .array(
+      z.custom<File>(
+        (value): value is File =>
+          typeof File !== "undefined" && value instanceof File,
+        "Choose valid image files.",
+      ),
     )
+    .min(1, "Choose at least 1 image.")
+    .max(5, "Choose no more than 5 images at once.")
     .refine(
-      (files) => !files || Array.from(files).every((file) => file.size <= 10 * 1024 * 1024),
+      (files) => files.every((file) => file.size <= 10 * 1024 * 1024),
       "Each image must be 10 MB or smaller.",
     )
     .refine(
       (files) =>
-        !files ||
-        Array.from(files).every((file) =>
+        files.every((file) =>
           ["image/jpeg", "image/png", "image/webp"].includes(file.type),
         ),
       "Only JPG, PNG, and WebP images are supported.",

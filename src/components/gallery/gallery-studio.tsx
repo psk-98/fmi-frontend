@@ -290,7 +290,7 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
       ) : null}
 
       <div className="mt-7 grid min-w-0 items-start gap-7 lg:grid-cols-[minmax(18rem,22rem)_minmax(0,1fr)]">
-        <Card className="min-w-0 lg:sticky lg:top-24">
+        <Card className="min-w-0 overflow-hidden lg:sticky lg:top-24">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Upload className="size-5 text-[#006397]" /> Append artworks
@@ -299,7 +299,7 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
               Every detected face receives its own searchable vector.
             </CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="min-w-0">
             <UploadImageForm
               galleryUid={gallery.uid}
               onUploaded={(images) =>

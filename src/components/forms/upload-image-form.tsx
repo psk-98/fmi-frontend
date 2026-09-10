@@ -1,8 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircle2, ImagePlus, LoaderCircle, UploadCloud, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { ImagePlus, LoaderCircle, Trash2, UploadCloud, X } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -30,14 +30,10 @@ export function UploadImageForm({
 }) {
   const [selected, setSelected] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const form = useForm<UploadImageValues>({ resolver: zodResolver(uploadImageSchema) });
-  const {
-    name: imagesFieldName,
-    ref: imagesFieldRef,
-    onBlur: imagesFieldOnBlur,
-    onChange: imagesFieldOnChange,
-  } = form.register("images");
+  const form = useForm<UploadImageValues>({
+    resolver: zodResolver(uploadImageSchema),
+    defaultValues: { images: [] },
+  });
 
   async function submit(values: UploadImageValues) {
     form.clearErrors("root");
@@ -51,7 +47,7 @@ export function UploadImageForm({
       });
       const parsed = imageCollectionSchema.parse(payload);
       onUploaded(parsed.data);
-      form.reset();
+      form.reset({ images: [] });
       setSelected([]);
     } catch (error) {
       form.setError("root", {
@@ -61,38 +57,62 @@ export function UploadImageForm({
   }
 
   function clearFiles() {
-    form.resetField("images");
-    if (inputRef.current) inputRef.current.value = "";
+    form.reset({ images: [] });
     setSelected([]);
   }
 
   function selectFiles(files: File[]) {
-    const images = files.filter((file) => allowedImageTypes.has(file.type));
+    form.clearErrors();
 
-    if (!images.length) {
+    if (!files.length) return;
+
+    if (files.some((file) => !allowedImageTypes.has(file.type))) {
       form.setError("images", { message: "Drop JPG, PNG, or WebP images." });
       return;
     }
+
+    const images = [...selected];
+
+    files.forEach((file) => {
+      const duplicate = images.some(
+        (image) =>
+          image.name === file.name &&
+          image.size === file.size &&
+          image.lastModified === file.lastModified,
+      );
+
+      if (!duplicate) images.push(file);
+    });
 
     if (images.length > 5) {
       form.setError("images", { message: "Choose no more than 5 images at once." });
       return;
     }
 
-    const transfer = new DataTransfer();
-    images.forEach((file) => transfer.items.add(file));
-    if (inputRef.current) inputRef.current.files = transfer.files;
-    form.setValue("images", transfer.files, {
+    setSelected(images);
+    form.setValue("images", images, {
       shouldDirty: true,
       shouldTouch: true,
       shouldValidate: true,
     });
+  }
+
+  function removeFile(index: number) {
+    const images = selected.filter((_, selectedIndex) => selectedIndex !== index);
+
     setSelected(images);
+    form.setValue("images", images, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: images.length > 0,
+    });
+
+    if (!images.length) form.clearErrors("images");
   }
 
   return (
-    <form onSubmit={form.handleSubmit(submit)} className="grid gap-5" noValidate>
-      <div>
+    <form onSubmit={form.handleSubmit(submit)} className="grid min-w-0 gap-5" noValidate>
+      <div className="min-w-0">
         <div className="mb-2 flex items-center justify-between gap-3">
           <label htmlFor="gallery-images" className="technical-label text-[#20333e]">Batch ingest / dropzone</label>
           <span className="text-[10px] uppercase text-[#6f8290]">Max 5 files</span>
@@ -103,15 +123,10 @@ export function UploadImageForm({
           accept="image/jpeg,image/png,image/webp"
           multiple
           className="sr-only"
-          name={imagesFieldName}
-          ref={(element) => {
-            imagesFieldRef(element);
-            inputRef.current = element;
-          }}
-          onBlur={imagesFieldOnBlur}
+          name="images"
           onChange={(event) => {
-            imagesFieldOnChange(event);
             selectFiles(Array.from(event.target.files ?? []));
+            event.currentTarget.value = "";
           }}
         />
         <label
@@ -153,20 +168,28 @@ export function UploadImageForm({
       </div>
 
       {selected.length ? (
-        <div>
+        <div className="min-w-0">
           <div className="flex items-center justify-between gap-3">
             <p className="technical-label text-[#20333e]">Staged for ingestion</p>
             <button type="button" onClick={clearFiles} className="flex items-center gap-1 text-[10px] font-bold text-[#ba1a1a]"><X className="size-3" /> Clear</button>
           </div>
-          <div className="mt-3 grid gap-2">
-            {selected.map((file) => (
-              <div key={`${file.name}-${file.lastModified}`} className="flex items-center gap-3 rounded-xl border border-[#d7e8ef] bg-white p-3">
+          <div className="mt-3 grid min-w-0 gap-2">
+            {selected.map((file, index) => (
+              <div key={`${file.name}-${file.lastModified}`} className="flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-[#d7e8ef] bg-white p-3">
                 <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-[#eaf5ff] text-[#006397]"><ImagePlus className="size-5" /></span>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-xs font-bold">{file.name}</p>
+                  <p className="block max-w-full truncate text-xs font-bold" title={file.name}>{file.name}</p>
                   <p className="mt-1 text-[10px] text-[#6f8290]">{fileSize(file.size)} · ready</p>
                 </div>
-                <CheckCircle2 className="size-5 shrink-0 text-[#1f9d64]" />
+                <button
+                  type="button"
+                  onClick={() => removeFile(index)}
+                  className="grid size-9 shrink-0 place-items-center rounded-lg text-[#ba1a1a] transition hover:bg-[#ffdad6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#30afff]"
+                  aria-label={`Remove ${file.name}`}
+                  title="Remove image"
+                >
+                  <Trash2 className="size-4" />
+                </button>
               </div>
             ))}
           </div>
@@ -177,9 +200,11 @@ export function UploadImageForm({
         <p className="rounded-xl bg-[#ffdad6] p-3 text-xs font-bold text-[#93000a]">{form.formState.errors.root.message}</p>
       ) : null}
 
-      <Button type="submit" size="lg" className="w-full" disabled={form.formState.isSubmitting}>
+      <Button type="submit" size="lg" className="w-full" disabled={!selected.length || form.formState.isSubmitting}>
         {form.formState.isSubmitting ? <LoaderCircle className="animate-spin" /> : <UploadCloud />}
-        Append {selected.length || ""} {selected.length === 1 ? "image" : "images"}
+        {selected.length
+          ? `Append ${selected.length} ${selected.length === 1 ? "image" : "images"}`
+          : "Choose images to append"}
       </Button>
     </form>
   );
