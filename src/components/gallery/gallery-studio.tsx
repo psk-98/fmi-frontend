@@ -257,11 +257,11 @@ export function GalleryStudio({
     <>
       <Link
         href="/galleries"
-        className="inline-flex items-center gap-2 text-xs font-bold text-[#006397] hover:text-[#091e29]"
+        className="inline-flex items-center gap-2 text-xs font-bold text-sky-700 dark:text-sky-300 hover:text-slate-950 dark:hover:text-slate-50"
       >
         <ArrowLeft className="size-4" /> Back to galleries
       </Link>
-      <div className="mt-7 grid items-end gap-8 rounded-3xl border border-[#d7e8ef] bg-white p-6 lg:grid-cols-[1fr_auto] sm:p-9">
+      <div className="mt-7 grid items-end gap-8 rounded-3xl border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 lg:grid-cols-[1fr_auto] sm:p-9">
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <Badge
@@ -281,7 +281,7 @@ export function GalleryStudio({
             ) : null}
           </div>
           <h1 className="editorial-type mt-4 break-words text-4xl font-semibold sm:text-6xl">{gallery.name}</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#6f8290]">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
             {gallery.description}
           </p>
         </div>
@@ -326,7 +326,7 @@ export function GalleryStudio({
       </div>
 
       {message ? (
-        <p className="mt-5 rounded-xl border border-[#d7e8ef] bg-white px-4 py-3 text-xs font-bold text-[#3f5663]">
+        <p className="mt-5 rounded-xl border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-3 text-xs font-bold text-slate-600 dark:text-slate-300">
           {message}
         </p>
       ) : null}
@@ -335,7 +335,7 @@ export function GalleryStudio({
         <Card className="min-w-0 overflow-hidden lg:sticky lg:top-24">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Upload className="size-5 text-[#006397]" /> Append artworks
+              <Upload className="size-5 text-sky-700 dark:text-sky-300" /> Append artworks
             </CardTitle>
             <CardDescription>
               Every detected face receives its own searchable vector.
@@ -374,18 +374,18 @@ export function GalleryStudio({
 
         <div className="min-w-0">
           <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div><p className="technical-label text-[#006397]">Gallery contents / synchronized</p><h2 className="display-type mt-1 text-2xl">Frames</h2></div>
+            <div><p className="technical-label text-sky-700 dark:text-sky-300">Gallery contents / synchronized</p><h2 className="display-type mt-1 text-2xl">Frames</h2></div>
             <div className="flex flex-wrap items-center gap-3">
-              <span className="text-[10px] font-bold uppercase text-[#6f8290]">
+              <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400">
                 {gallery.images.length} visible
               </span>
               <label className="relative min-w-0">
                 <span className="sr-only">Sort gallery images</span>
-                <ArrowUpDown className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+                <ArrowUpDown className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
                 <select
                   value={imageSort}
                   onChange={(event) => setImageSort(event.target.value as ImageSort)}
-                  className="h-10 w-full appearance-none rounded-xl border border-[#cde5ef] bg-white pl-9 pr-8 text-xs font-bold text-[#20333e] outline-none focus:border-[#30afff] focus:ring-2 focus:ring-[#30afff]/20 sm:w-44"
+                  className="h-10 w-full appearance-none rounded-xl border border-sky-300 dark:border-slate-600 bg-white dark:bg-slate-900 pl-9 pr-8 text-xs font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-sky-400 dark:focus:border-sky-300 focus:ring-2 focus:ring-sky-400/20 dark:focus:ring-sky-300/20 sm:w-44"
                 >
                   <option value="date-desc">Newest first</option>
                   <option value="date-asc">Oldest first</option>
@@ -442,7 +442,7 @@ export function GalleryStudio({
               ))}
             </div>
           ) : (
-            <div className="system-grid mt-5 rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff]/65 p-8 text-center text-xs text-[#6f8290] sm:p-16">
+            <div className="system-grid mt-5 rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100/65 dark:bg-slate-800/65 p-8 text-center text-xs text-slate-500 dark:text-slate-400 sm:p-16">
               Upload the first frame to start this visual index.
             </div>
           )}

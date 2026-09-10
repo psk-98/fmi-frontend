@@ -50,19 +50,19 @@ export function LoginForm() {
     <form onSubmit={form.handleSubmit(submit)} className="grid gap-6" noValidate>
       <Field label="Identifier" htmlFor="email" hint="Email" error={form.formState.errors.email?.message}>
         <div className="relative">
-          <Mail className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <Mail className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <Input id="email" type="email" autoComplete="email" placeholder="curator@fmi.gallery" className="pl-11" {...form.register("email")} />
         </div>
       </Field>
       <Field label="Access key" htmlFor="password" hint="Secure" error={form.formState.errors.password?.message}>
         <div className="relative">
-          <LockKeyhole className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <LockKeyhole className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <Input id="password" type="password" autoComplete="current-password" placeholder="••••••••••" className="pl-11" {...form.register("password")} />
         </div>
       </Field>
 
       {form.formState.errors.root?.message ? (
-        <p className="rounded-xl bg-[#ffdad6] px-4 py-3 text-xs font-bold text-[#93000a]">{form.formState.errors.root.message}</p>
+        <p className="rounded-xl bg-rose-100 dark:bg-rose-950/60 px-4 py-3 text-xs font-bold text-rose-950 dark:text-rose-200">{form.formState.errors.root.message}</p>
       ) : null}
 
       <Button type="submit" size="lg" className="mt-1 w-full" disabled={form.formState.isSubmitting}>
@@ -72,7 +72,7 @@ export function LoginForm() {
 
       <button
         type="button"
-        className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#7b8e9b] transition hover:text-[#006397]"
+        className="text-[10px] font-bold uppercase tracking-[0.1em] text-slate-500 dark:text-slate-400 transition hover:text-sky-700 dark:hover:text-sky-300"
         onClick={() => {
           form.setValue("email", "naledi@fmi.test", { shouldValidate: true });
           form.setValue("password", "password", { shouldValidate: true });

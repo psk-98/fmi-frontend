@@ -36,7 +36,7 @@ export function ImagePreviewModal({
       size="wide"
     >
       <div className="grid min-w-0 gap-6 lg:grid-cols-[minmax(0,1.5fr)_minmax(17rem,.6fr)]">
-        <div className="relative min-h-[19rem] overflow-hidden rounded-2xl bg-[#07141d] sm:min-h-[32rem] lg:min-h-[38rem]">
+        <div className="relative min-h-[19rem] overflow-hidden rounded-2xl bg-slate-950 sm:min-h-[32rem] lg:min-h-[38rem]">
           <div
             role="img"
             aria-label={title}
@@ -63,7 +63,7 @@ export function ImagePreviewModal({
             </Badge>
           </div>
 
-          <p className="mt-5 text-sm leading-7 text-[#6f8290]">
+          <p className="mt-5 text-sm leading-7 text-slate-500 dark:text-slate-400">
             {image.description || "No description has been added to this image."}
           </p>
 
@@ -72,17 +72,17 @@ export function ImagePreviewModal({
           ) : null}
 
           <dl className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-            <div className="rounded-xl bg-[#eaf5ff] p-4">
-              <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-[#6f8290]"><Ruler className="size-4 text-[#006397]" /> Dimensions</dt>
-              <dd className="mt-2 font-black text-[#091e29]">{image.width ?? "—"} × {image.height ?? "—"}</dd>
+            <div className="rounded-xl bg-sky-100 dark:bg-slate-800 p-4">
+              <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400"><Ruler className="size-4 text-sky-700 dark:text-sky-300" /> Dimensions</dt>
+              <dd className="mt-2 font-black text-slate-950 dark:text-slate-50">{image.width ?? "—"} × {image.height ?? "—"}</dd>
             </div>
-            <div className="rounded-xl bg-[#eaf5ff] p-4">
-              <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-[#6f8290]"><FileImage className="size-4 text-[#006397]" /> File size</dt>
-              <dd className="mt-2 font-black text-[#091e29]">{formatFileSize(image.file_size)}</dd>
+            <div className="rounded-xl bg-sky-100 dark:bg-slate-800 p-4">
+              <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400"><FileImage className="size-4 text-sky-700 dark:text-sky-300" /> File size</dt>
+              <dd className="mt-2 font-black text-slate-950 dark:text-slate-50">{formatFileSize(image.file_size)}</dd>
             </div>
-            <div className="rounded-xl bg-[#eaf5ff] p-4">
-              <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-[#6f8290]"><CalendarDays className="size-4 text-[#006397]" /> Added</dt>
-              <dd className="mt-2 font-black text-[#091e29]">{formatDate(image.created_at)}</dd>
+            <div className="rounded-xl bg-sky-100 dark:bg-slate-800 p-4">
+              <dt className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400"><CalendarDays className="size-4 text-sky-700 dark:text-sky-300" /> Added</dt>
+              <dd className="mt-2 font-black text-slate-950 dark:text-slate-50">{formatDate(image.created_at)}</dd>
             </div>
           </dl>
         </div>

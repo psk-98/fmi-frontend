@@ -39,11 +39,11 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
 
   return (
     <>
-      <div className="flex flex-col justify-between gap-6 border-b border-[#d7e8ef] pb-8 lg:flex-row lg:items-end">
+      <div className="flex flex-col justify-between gap-6 border-b border-sky-200 dark:border-slate-700 pb-8 lg:flex-row lg:items-end">
         <div>
-          <p className="technical-label text-[#006397]">Protected library / gallery list</p>
+          <p className="technical-label text-sky-700 dark:text-sky-300">Protected library / gallery list</p>
           <h1 className="display-type mt-3 text-4xl sm:text-6xl">Your galleries.</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#6f8290]">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
             Find a gallery by name, change the order, or open a collection to append and process images.
           </p>
         </div>
@@ -55,7 +55,7 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
       <div className="mt-7 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
         <label className="relative min-w-0">
           <span className="sr-only">Search galleries by name</span>
-          <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <Input
             type="search"
             value={query}
@@ -67,7 +67,7 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="absolute right-2 top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-lg text-[#6f8290] hover:bg-white hover:text-[#091e29]"
+              className="absolute right-2 top-1/2 grid size-9 -translate-y-1/2 place-items-center rounded-lg text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-900 hover:text-slate-950 dark:hover:text-slate-50"
               aria-label="Clear gallery search"
             >
               <X className="size-4" />
@@ -76,11 +76,11 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
         </label>
         <label className="relative min-w-0">
           <span className="sr-only">Sort galleries</span>
-          <ArrowUpDown className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <ArrowUpDown className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <select
             value={sort}
             onChange={(event) => setSort(event.target.value as GallerySort)}
-            className="h-13 w-full min-w-0 appearance-none rounded-xl border border-transparent bg-[#eaf5ff] pr-10 pl-11 text-sm font-bold text-[#20333e] outline-none focus:border-[#30afff] focus:ring-2 focus:ring-[#30afff]/20 sm:w-52"
+            className="h-13 w-full min-w-0 appearance-none rounded-xl border border-transparent bg-sky-100 dark:bg-slate-800 pr-10 pl-11 text-sm font-bold text-slate-800 dark:text-slate-200 outline-none focus:border-sky-400 dark:focus:border-sky-300 focus:ring-2 focus:ring-sky-400/20 dark:focus:ring-sky-300/20 sm:w-52"
           >
             <option value="date-desc">Newest first</option>
             <option value="date-asc">Oldest first</option>
@@ -92,7 +92,7 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
         <Badge variant="neutral">{visibleGalleries.length} shown</Badge>
-        <p className="text-[10px] uppercase tracking-[0.08em] text-[#6f8290]">
+        <p className="text-[10px] uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400">
           Gallery-name search · visual search is separate
         </p>
       </div>
@@ -104,13 +104,13 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
           ))}
         </div>
       ) : (
-        <div className="system-grid mt-6 grid min-h-72 place-items-center rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff]/70 p-8 text-center">
+        <div className="system-grid mt-6 grid min-h-72 place-items-center rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100/70 dark:bg-slate-800/70 p-8 text-center">
           <div>
-            <FolderSearch className="mx-auto size-9 text-[#006397]" />
+            <FolderSearch className="mx-auto size-9 text-sky-700 dark:text-sky-300" />
             <h2 className="mt-4 text-lg font-black">
               {galleries.length ? "No gallery matches that name" : "No galleries yet"}
             </h2>
-            <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-[#6f8290]">
+            <p className="mx-auto mt-2 max-w-md text-xs leading-6 text-slate-500 dark:text-slate-400">
               {galleries.length
                 ? "Try a shorter name or clear the search field."
                 : "Create your first gallery, then append images from its protected workspace."}

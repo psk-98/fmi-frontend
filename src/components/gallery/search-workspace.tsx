@@ -107,7 +107,7 @@ export function SearchWorkspace({
           <h1 className="display-type mt-5 text-4xl leading-[.95] sm:text-6xl">
             Search faces inside one gallery.
           </h1>
-          <p className="mt-4 text-sm leading-7 text-[#6f8290]">
+          <p className="mt-4 text-sm leading-7 text-slate-500 dark:text-slate-400">
             Choose the collection first, then drop in a face or group photo.
             Results never spill into a different gallery.
           </p>
@@ -125,7 +125,7 @@ export function SearchWorkspace({
             >
               <select
                 id="search-gallery"
-                className="h-13 w-full min-w-0 rounded-xl border border-transparent bg-[#eaf5ff] px-4 text-sm font-bold text-[#091e29] outline-none focus:border-[#30afff] focus:ring-2 focus:ring-[#30afff]/20"
+                className="h-13 w-full min-w-0 rounded-xl border border-transparent bg-sky-100 dark:bg-slate-800 px-4 text-sm font-bold text-slate-950 dark:text-slate-50 outline-none focus:border-sky-400 dark:focus:border-sky-300 focus:ring-2 focus:ring-sky-400/20 dark:focus:ring-sky-300/20"
                 {...form.register("gallery_uid", {
                   onChange: () => {
                     setResults([]);
@@ -164,7 +164,7 @@ export function SearchWorkspace({
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#07141d]"
+                className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-slate-950"
               >
                 <div
                   className="absolute inset-0 bg-cover bg-center"
@@ -172,16 +172,16 @@ export function SearchWorkspace({
                     backgroundImage: `url(${JSON.stringify(preview).slice(1, -1)})`,
                   }}
                 />
-                <div className="absolute inset-5 rounded-2xl border border-[#92eeff]/70">
-                  <span className="absolute -left-px -top-px size-4 border-l-2 border-t-2 border-[#92eeff]" />
-                  <span className="absolute -bottom-px -right-px size-4 border-b-2 border-r-2 border-[#92eeff]" />
+                <div className="absolute inset-5 rounded-2xl border border-cyan-200/70 dark:border-cyan-300/70">
+                  <span className="absolute -left-px -top-px size-4 border-l-2 border-t-2 border-cyan-200 dark:border-cyan-300" />
+                  <span className="absolute -bottom-px -right-px size-4 border-b-2 border-r-2 border-cyan-200 dark:border-cyan-300" />
                 </div>
               </motion.div>
             ) : (
-              <div className="system-grid grid aspect-[4/3] place-items-center rounded-2xl border border-dashed border-[#cde5ef] bg-[#eaf5ff] text-center">
+              <div className="system-grid grid aspect-[4/3] place-items-center rounded-2xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100 dark:bg-slate-800 text-center">
                 <div>
-                  <ImageUp className="mx-auto size-8 text-[#006397]" />
-                  <p className="mt-3 text-xs font-semibold text-[#6f8290]">
+                  <ImageUp className="mx-auto size-8 text-sky-700 dark:text-sky-300" />
+                  <p className="mt-3 text-xs font-semibold text-slate-500 dark:text-slate-400">
                     Preview appears here
                   </p>
                 </div>
@@ -227,16 +227,16 @@ export function SearchWorkspace({
         </div>
       </div>
 
-      <div className="min-h-[34rem] border-t border-[#d7e8ef] pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+      <div className="min-h-[34rem] border-t border-sky-200 dark:border-slate-700 pt-8 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
         <div className="flex flex-wrap items-end justify-between gap-5">
           <div>
-            <p className="technical-label text-[#006397]">
+            <p className="technical-label text-sky-700 dark:text-sky-300">
               Face matches / {selectedGallery?.name ?? "choose gallery"}
             </p>
             <h2 className="display-type mt-2 text-4xl">Closest frames</h2>
           </div>
           {hasSearched ? (
-            <span className="text-xs font-semibold text-[#6f8290]">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               {results.length} results
             </span>
           ) : null}
@@ -263,10 +263,10 @@ export function SearchWorkspace({
               key={hasSearched ? "empty" : "start"}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="system-grid mt-7 grid min-h-[28rem] place-items-center rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff]/65 p-8 text-center"
+              className="system-grid mt-7 grid min-h-[28rem] place-items-center rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100/65 dark:bg-slate-800/65 p-8 text-center"
             >
               <div>
-                <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#d1e5f5] text-[#006397]">
+                <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-sky-200 dark:bg-slate-700 text-sky-700 dark:text-sky-300">
                   <ScanFace className="size-7" />
                 </span>
                 <h3 className="mt-5 text-xl font-bold">
@@ -274,7 +274,7 @@ export function SearchWorkspace({
                     ? "No close faces found"
                     : "Your results will build here"}
                 </h3>
-                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-[#6f8290]">
+                <p className="mx-auto mt-2 max-w-sm text-sm leading-6 text-slate-500 dark:text-slate-400">
                   {hasSearched
                     ? "Try a brighter, front-facing image or expand the number of results."
                     : "We will rank matches by the strongest face-to-face cosine similarity."}

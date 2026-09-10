@@ -39,9 +39,9 @@ export function ImageCard({
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: Math.min(index * 0.045, 0.35), duration: 0.35 }}
         layout
-        className="group overflow-hidden rounded-2xl border border-[#d7e8ef] bg-white p-2 shadow-[0_16px_44px_-36px_rgba(11,38,54,.48)]"
+        className="group overflow-hidden rounded-2xl border border-sky-200 bg-white p-2 shadow-xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/25"
       >
-        <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] bg-[#eaf5ff]">
+        <div className="relative aspect-[4/3] overflow-hidden rounded-[14px] bg-sky-100 dark:bg-slate-800">
           <div
             role="img"
             aria-label={
@@ -92,18 +92,18 @@ export function ImageCard({
         <div className="px-2 pb-2 pt-3">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <h3 className="truncate text-sm font-black tracking-[-0.03em] text-[#091e29]">
+              <h3 className="truncate text-sm font-black tracking-[-0.03em] text-slate-950 dark:text-slate-50">
                 {image.celebrity_name ||
                   image.original_name ||
                   "UNTITLED_FRAME"}
               </h3>
-              <p className="mt-1 line-clamp-1 text-[10px] text-[#6f8290]">
+              <p className="mt-1 line-clamp-1 text-[10px] text-slate-500 dark:text-slate-400">
                 {image.description ||
                   image.tags.join(" · ") ||
                   `${image.width ?? "—"}×${image.height ?? "—"} · VISUAL INDEX`}
               </p>
             </div>
-            <span className="flex shrink-0 items-center gap-1 rounded-full bg-[#eaf5ff] px-2.5 py-1 text-[10px] font-bold text-[#006397]">
+            <span className="flex shrink-0 items-center gap-1 rounded-full bg-sky-100 dark:bg-slate-800 px-2.5 py-1 text-[10px] font-bold text-sky-700 dark:text-sky-300">
               <ScanFace className="size-3.5" /> {image.face_count ?? 0}
             </span>
           </div>

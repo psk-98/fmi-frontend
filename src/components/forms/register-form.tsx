@@ -48,35 +48,35 @@ export function RegisterForm() {
     <form onSubmit={form.handleSubmit(submit)} className="grid gap-5" noValidate>
       <Field label="Artist handle / name" htmlFor="register-name" hint="Public identifier" error={form.formState.errors.name?.message}>
         <div className="relative">
-          <UserRound className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <UserRound className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <Input id="register-name" autoComplete="name" placeholder="e.g. Naledi or Studio 09" className="pl-11" {...form.register("name")} />
         </div>
       </Field>
       <Field label="Curator electronic mail" htmlFor="register-email" hint="Login key" error={form.formState.errors.email?.message}>
         <div className="relative">
-          <Mail className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <Mail className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <Input id="register-email" type="email" autoComplete="email" placeholder="archivist@example.org" className="pl-11" {...form.register("email")} />
         </div>
       </Field>
       <Field label="Access key / password" htmlFor="register-password" hint="Min. 10 chars" error={form.formState.errors.password?.message}>
         <div className="relative">
-          <KeyRound className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#006397]" />
+          <KeyRound className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
           <Input id="register-password" type="password" autoComplete="new-password" placeholder="••••••••••" className="pl-11" {...form.register("password")} />
         </div>
       </Field>
       <Field label="Confirm access key" htmlFor="register-password-confirmation" hint="Re-enter exactly" error={form.formState.errors.password_confirmation?.message}>
         <div className="relative">
-          <KeyRound className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-[#1f9d64]" />
+          <KeyRound className="absolute left-4 top-1/2 size-4 -translate-y-1/2 text-emerald-600 dark:text-emerald-400" />
           <Input id="register-password-confirmation" type="password" autoComplete="new-password" placeholder="••••••••••" className="pl-11" {...form.register("password_confirmation")} />
         </div>
       </Field>
 
-      <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-[#d7e8ef] bg-white p-4 text-xs leading-5 text-[#3f5663]">
-        <input type="checkbox" className="mt-0.5 size-4 accent-[#30afff]" {...form.register("terms")} />
-        <span>I accept the <strong className="text-[#006397]">Curation Guidelines</strong> and respectful gallery standards.</span>
+      <label className="flex cursor-pointer items-start gap-3 rounded-2xl border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 text-xs leading-5 text-slate-600 dark:text-slate-300">
+        <input type="checkbox" className="mt-0.5 size-4 accent-sky-400" {...form.register("terms")} />
+        <span>I accept the <strong className="text-sky-700 dark:text-sky-300">Curation Guidelines</strong> and respectful gallery standards.</span>
       </label>
-      {form.formState.errors.terms?.message ? <p className="text-xs text-[#ba1a1a]">{form.formState.errors.terms.message}</p> : null}
-      {form.formState.errors.root?.message ? <p className="rounded-xl bg-[#ffdad6] px-4 py-3 text-xs font-bold text-[#93000a]">{form.formState.errors.root.message}</p> : null}
+      {form.formState.errors.terms?.message ? <p className="text-xs text-rose-700 dark:text-rose-300">{form.formState.errors.terms.message}</p> : null}
+      {form.formState.errors.root?.message ? <p className="rounded-xl bg-rose-100 dark:bg-rose-950/60 px-4 py-3 text-xs font-bold text-rose-950 dark:text-rose-200">{form.formState.errors.root.message}</p> : null}
 
       <Button type="submit" size="lg" className="mt-2 w-full" disabled={form.formState.isSubmitting}>
         {form.formState.isSubmitting ? <LoaderCircle className="animate-spin" /> : null}

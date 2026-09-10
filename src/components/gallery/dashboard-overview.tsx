@@ -36,11 +36,11 @@ export function DashboardOverview({
 
   return (
     <>
-      <div className="flex flex-col justify-between gap-8 rounded-3xl border border-[#d7e8ef] bg-white p-6 sm:flex-row sm:items-end sm:p-9">
+      <div className="flex flex-col justify-between gap-8 rounded-3xl border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-6 sm:flex-row sm:items-end sm:p-9">
         <div>
-          <Badge variant="neutral"><span className="size-1.5 rounded-full bg-[#1f9d64]" /> {user.role} workspace / live</Badge>
+          <Badge variant="neutral"><span className="size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" /> {user.role} workspace / live</Badge>
           <h1 className="display-type mt-5 text-4xl sm:text-6xl">Good to see you, {user.name.split(" ")[0]}.</h1>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#6f8290]">Your visual library, processing queue, and face search in one precise workspace.</p>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">Your visual library, processing queue, and face search in one precise workspace.</p>
         </div>
         <div className="flex flex-wrap gap-2">
           <Button asChild variant="outline"><Link href="/search"><ScanSearch /> Search a face</Link></Button>
@@ -52,13 +52,13 @@ export function DashboardOverview({
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label} className="bg-[#eaf5ff]/70 shadow-none">
+            <Card key={stat.label} className="bg-sky-100/70 dark:bg-slate-800/70 shadow-none">
               <CardContent className="flex items-end justify-between p-5">
                 <div>
-                  <p className="technical-label text-[#6f8290]">{stat.label}</p>
+                  <p className="technical-label text-slate-500 dark:text-slate-400">{stat.label}</p>
                   <p className="mt-3 text-4xl font-black tracking-[-0.07em]">{stat.value}</p>
                 </div>
-                <span className="grid size-11 place-items-center rounded-xl bg-white text-[#006397]"><Icon className="size-5" /></span>
+                <span className="grid size-11 place-items-center rounded-xl bg-white dark:bg-slate-900 text-sky-700 dark:text-sky-300"><Icon className="size-5" /></span>
               </CardContent>
             </Card>
           );
@@ -74,10 +74,10 @@ export function DashboardOverview({
       <AnimatePresence>
         {creating ? (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
-            <Card className="mt-6 border-[#92ccff] bg-[#eaf5ff]">
+            <Card className="mt-6 border-sky-300 dark:border-sky-600 bg-sky-100 dark:bg-slate-800">
               <CardHeader className="flex-row items-start justify-between">
                 <div>
-                  <p className="technical-label text-[#006397]">01 / Gallery essentials</p>
+                  <p className="technical-label text-sky-700 dark:text-sky-300">01 / Gallery essentials</p>
                   <CardTitle className="mt-2">Create a gallery</CardTitle>
                   <CardDescription>Start private; publish whenever the collection is ready.</CardDescription>
                 </div>
@@ -98,7 +98,7 @@ export function DashboardOverview({
 
       <div className="mt-12 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="technical-label text-[#006397]">Your library / synchronized</p>
+          <p className="technical-label text-sky-700 dark:text-sky-300">Your library / synchronized</p>
           <h2 className="display-type mt-2 text-3xl sm:text-4xl">Recent galleries</h2>
         </div>
         <div className="flex items-center gap-2">
@@ -112,10 +112,10 @@ export function DashboardOverview({
           {galleries.slice(0, 6).map((gallery) => <GalleryCard key={gallery.uid} gallery={gallery} href={`/galleries/${gallery.uid}`} />)}
         </div>
       ) : (
-        <button type="button" onClick={() => setCreating(true)} className="system-grid mt-6 grid w-full place-items-center rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff]/70 px-6 py-20 text-center transition hover:border-[#30afff] hover:bg-[#def0ff]">
-          <Plus className="size-9 text-[#006397]" />
+        <button type="button" onClick={() => setCreating(true)} className="system-grid mt-6 grid w-full place-items-center rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100/70 dark:bg-slate-800/70 px-6 py-20 text-center transition hover:border-sky-400 dark:hover:border-sky-300 hover:bg-sky-100 dark:hover:bg-slate-700">
+          <Plus className="size-9 text-sky-700 dark:text-sky-300" />
           <span className="mt-4 text-lg font-black">Create your first gallery</span>
-          <span className="mt-1 text-xs text-[#6f8290]">Then upload up to five frames at a time for processing.</span>
+          <span className="mt-1 text-xs text-slate-500 dark:text-slate-400">Then upload up to five frames at a time for processing.</span>
         </button>
       )}
     </>

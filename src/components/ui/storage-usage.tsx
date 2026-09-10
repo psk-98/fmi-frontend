@@ -28,28 +28,28 @@ export function StorageUsage({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-[#d7e8ef] bg-[#f8fcff]",
+        "rounded-2xl border border-sky-200 dark:border-slate-700 bg-sky-50 dark:bg-slate-950/50",
         compact ? "p-4" : "p-5 sm:p-6",
         className,
       )}
     >
       <div className="flex min-w-0 items-center justify-between gap-4">
         <div className="flex min-w-0 items-center gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#eaf5ff] text-[#006397]">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300">
             <HardDrive className="size-5" />
           </span>
           <div className="min-w-0">
-            <p className="technical-label text-[#20333e]">Storage</p>
-            <p className="mt-1 truncate text-xs text-[#6f8290]">
+            <p className="technical-label text-slate-800 dark:text-slate-200">Storage</p>
+            <p className="mt-1 truncate text-xs text-slate-500 dark:text-slate-400">
               {formatFileSize(safeUsed)} of {formatFileSize(safeQuota)} used
             </p>
           </div>
         </div>
-        <span className={cn("text-sm font-black", isFull ? "text-[#ba1a1a]" : "text-[#006397]")}>{percentageLabel}</span>
+        <span className={cn("text-sm font-black", isFull ? "text-rose-700 dark:text-rose-300" : "text-sky-700 dark:text-sky-300")}>{percentageLabel}</span>
       </div>
 
       <div
-        className="mt-4 h-2 overflow-hidden rounded-full bg-[#d7e8ef]"
+        className="mt-4 h-2 overflow-hidden rounded-full bg-sky-200 dark:bg-slate-700"
         role="progressbar"
         aria-label="Storage used"
         aria-valuemin={0}
@@ -57,12 +57,12 @@ export function StorageUsage({
         aria-valuenow={Number(percentage.toFixed(2))}
       >
         <div
-          className={cn("h-full rounded-full transition-[width]", isFull ? "bg-[#d9535f]" : "bg-[#30afff]")}
+          className={cn("h-full rounded-full transition-[width]", isFull ? "bg-rose-500" : "bg-sky-400")}
           style={{ width: `${barPercentage}%` }}
         />
       </div>
 
-      <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.06em] text-[#6f8290]">
+      <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.06em] text-slate-500 dark:text-slate-400">
         {isFull
           ? "Storage full · delete images or a gallery to upload again"
           : `${formatFileSize(remainingBytes)} available`}

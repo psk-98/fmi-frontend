@@ -83,7 +83,7 @@ export function CreateGalleryForm({
       >
         <select
           id="gallery-visibility"
-          className="h-13 w-full min-w-0 rounded-xl border border-transparent bg-[#eaf5ff] px-4 text-sm text-[#091e29] outline-none focus:border-[#30afff] focus:ring-2 focus:ring-[#30afff]/20"
+          className="h-13 w-full min-w-0 rounded-xl border border-transparent bg-sky-100 dark:bg-slate-800 px-4 text-sm text-slate-950 dark:text-slate-50 outline-none focus:border-sky-400 dark:focus:border-sky-300 focus:ring-2 focus:ring-sky-400/20 dark:focus:ring-sky-300/20"
           {...form.register("visibility")}
         >
           <option value="private">Private — only you and moderators</option>
@@ -93,7 +93,7 @@ export function CreateGalleryForm({
         </select>
       </Field>
       {form.formState.errors.root?.message ? (
-        <p className="text-xs text-[#ba1a1a]">
+        <p className="text-xs text-rose-700 dark:text-rose-300">
           {form.formState.errors.root.message}
         </p>
       ) : null}

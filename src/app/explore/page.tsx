@@ -14,14 +14,14 @@ export default async function ExplorePage() {
 
   return (
     <section className="page-shell py-10 sm:py-16">
-      <div className="border-b border-[#d7e8ef] pb-10">
-        <p className="technical-label flex items-center gap-2 text-[#006397]">
-          <span className="size-1.5 rounded-full bg-[#1f9d64]" /> Gallery / discover
+      <div className="border-b border-sky-200 dark:border-slate-700 pb-10">
+        <p className="technical-label flex items-center gap-2 text-sky-700 dark:text-sky-300">
+          <span className="size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" /> Gallery / discover
         </p>
         <div className="mt-4 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
             <h1 className="display-type text-4xl sm:text-6xl">Discover visual work.</h1>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-[#6f8290]">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
               Curated public galleries, indexed faces, and approved visual studies from the FMI community.
             </p>
           </div>
@@ -44,10 +44,10 @@ export default async function ExplorePage() {
           ))}
         </div>
       ) : (
-        <div className="system-grid mt-10 grid place-items-center rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff]/70 px-6 py-24 text-center">
-          <Images className="size-10 text-[#30afff]" />
+        <div className="system-grid mt-10 grid place-items-center rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100/70 dark:bg-slate-800/70 px-6 py-24 text-center">
+          <Images className="size-10 text-sky-500 dark:text-sky-300" />
           <h2 className="mt-5 text-xl font-black">No public galleries yet</h2>
-          <p className="mt-2 max-w-md text-xs leading-6 text-[#6f8290]">Approved public collections will appear here automatically.</p>
+          <p className="mt-2 max-w-md text-xs leading-6 text-slate-500 dark:text-slate-400">Approved public collections will appear here automatically.</p>
           <Button asChild className="mt-6"><Link href="/register">Create the first <ArrowRight /></Link></Button>
         </div>
       )}

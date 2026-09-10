@@ -58,7 +58,7 @@ export function Modal({
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-[#07141d]/70 p-3 backdrop-blur-sm sm:p-6"
+      className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/70 p-3 backdrop-blur-sm sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -71,17 +71,17 @@ export function Modal({
         aria-describedby={description ? descriptionId : undefined}
         tabIndex={-1}
         className={cn(
-          "relative my-auto w-full overflow-hidden rounded-3xl border border-[#d7e8ef] bg-white shadow-[0_30px_100px_-35px_rgba(0,0,0,.75)] outline-none",
+          "relative my-auto w-full overflow-hidden rounded-3xl border border-sky-200 bg-white shadow-2xl shadow-black/40 outline-none dark:border-slate-700 dark:bg-slate-900",
           size === "wide" ? "max-w-6xl" : "max-w-lg",
         )}
       >
-        <div className="flex items-start justify-between gap-5 border-b border-[#eaf5ff] px-5 py-5 sm:px-7">
+        <div className="flex items-start justify-between gap-5 border-b border-sky-100 dark:border-slate-800 px-5 py-5 sm:px-7">
           <div className="min-w-0">
-            <h2 id={titleId} className="editorial-type break-words text-2xl font-semibold text-[#091e29]">
+            <h2 id={titleId} className="editorial-type break-words text-2xl font-semibold text-slate-950 dark:text-slate-50">
               {title}
             </h2>
             {description ? (
-              <p id={descriptionId} className="mt-1.5 text-xs leading-5 text-[#6f8290]">
+              <p id={descriptionId} className="mt-1.5 text-xs leading-5 text-slate-500 dark:text-slate-400">
                 {description}
               </p>
             ) : null}
@@ -101,7 +101,7 @@ export function Modal({
         {children ? <div className="max-h-[calc(100dvh-12rem)] overflow-y-auto p-5 sm:p-7">{children}</div> : null}
 
         {footer ? (
-          <div className="flex flex-col-reverse gap-2 border-t border-[#eaf5ff] bg-[#f8fcff] px-5 py-4 sm:flex-row sm:justify-end sm:px-7">
+          <div className="flex flex-col-reverse gap-2 border-t border-sky-100 dark:border-slate-800 bg-sky-50 dark:bg-slate-950/50 px-5 py-4 sm:flex-row sm:justify-end sm:px-7">
             {footer}
           </div>
         ) : null}

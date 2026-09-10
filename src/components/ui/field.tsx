@@ -20,14 +20,14 @@ export function Field({
       <div className="flex flex-wrap items-end justify-between gap-x-4 gap-y-1">
         <Label htmlFor={htmlFor}>{label}</Label>
         {hint ? (
-          <span className="text-[10px] uppercase tracking-[0.08em] text-[#6f8290]">
+          <span className="text-[10px] uppercase tracking-[0.08em] text-slate-500 dark:text-slate-400">
             {hint}
           </span>
         ) : null}
       </div>
       {children}
       {error ? (
-        <p className="text-xs font-medium text-[#ba1a1a]">{error}</p>
+        <p className="text-xs font-medium text-rose-700 dark:text-rose-300">{error}</p>
       ) : null}
     </div>
   );

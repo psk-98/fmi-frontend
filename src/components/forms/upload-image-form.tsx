@@ -132,8 +132,8 @@ export function UploadImageForm({
     <form onSubmit={form.handleSubmit(submit)} className="grid min-w-0 gap-5" noValidate>
       <div className="min-w-0">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <label htmlFor="gallery-images" className="technical-label text-[#20333e]">Batch ingest / dropzone</label>
-          <span className="text-[10px] uppercase text-[#6f8290]">Max 5 files</span>
+          <label htmlFor="gallery-images" className="technical-label text-slate-800 dark:text-slate-200">Batch ingest / dropzone</label>
+          <span className="text-[10px] uppercase text-slate-500 dark:text-slate-400">Max 5 files</span>
         </div>
         <input
           id="gallery-images"
@@ -167,16 +167,16 @@ export function UploadImageForm({
           }}
           aria-disabled={storageIsFull}
           className={cn(
-            "system-grid grid min-h-44 cursor-pointer place-items-center rounded-2xl border border-dashed border-[#cde5ef] bg-[#eaf5ff] px-4 py-8 text-center transition sm:min-h-56 sm:px-5 sm:py-10",
+            "system-grid grid min-h-44 cursor-pointer place-items-center rounded-2xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100 dark:bg-slate-800 px-4 py-8 text-center transition sm:min-h-56 sm:px-5 sm:py-10",
             storageIsFull
               ? "cursor-not-allowed opacity-65"
               : isDragging
-              ? "scale-[1.01] border-[#30afff] bg-[#d7ebfa] shadow-[0_0_0_4px_rgba(48,175,255,.12)]"
-              : "hover:border-[#30afff] hover:bg-[#def0ff]",
+              ? "scale-[1.01] border-sky-400 bg-sky-200 ring-4 ring-sky-400/15 dark:border-sky-300 dark:bg-slate-700 dark:ring-sky-300/15"
+              : "hover:border-sky-400 dark:hover:border-sky-300 hover:bg-sky-100 dark:hover:bg-slate-700",
           )}
         >
           <span className="pointer-events-none">
-            <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-[#d1e5f5] text-[#006397]">
+            <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-sky-200 dark:bg-slate-700 text-sky-700 dark:text-sky-300">
               <UploadCloud className="size-7" />
             </span>
             <strong className="mt-5 block text-sm">
@@ -186,41 +186,41 @@ export function UploadImageForm({
                   ? "Release to append images"
                   : "Drag and drop JPG, PNG or WebP"}
             </strong>
-            <span className="mt-2 block text-[10px] leading-5 text-[#6f8290]">
+            <span className="mt-2 block text-[10px] leading-5 text-slate-500 dark:text-slate-400">
               {storageIsFull
                 ? "Delete images or a gallery to upload again"
                 : "Up to 10 MB per image · multi-face extraction enabled"}
             </span>
-            {!storageIsFull ? <span className="mt-4 inline-flex rounded-lg bg-white px-4 py-2 text-xs font-bold text-[#006397]">Browse files</span> : null}
+            {!storageIsFull ? <span className="mt-4 inline-flex rounded-lg bg-white dark:bg-slate-900 px-4 py-2 text-xs font-bold text-sky-700 dark:text-sky-300">Browse files</span> : null}
           </span>
         </label>
         {exceedsStorage ? (
-          <p className="mt-2 text-xs text-[#ba1a1a]">
+          <p className="mt-2 text-xs text-rose-700 dark:text-rose-300">
             These images need {formatFileSize(selectedBytes)}, but only {formatFileSize(storageRemainingBytes)} is available.
           </p>
         ) : form.formState.errors.images?.message ? (
-          <p className="mt-2 text-xs text-[#ba1a1a]">{form.formState.errors.images.message}</p>
+          <p className="mt-2 text-xs text-rose-700 dark:text-rose-300">{form.formState.errors.images.message}</p>
         ) : null}
       </div>
 
       {selected.length ? (
         <div className="min-w-0">
           <div className="flex items-center justify-between gap-3">
-            <p className="technical-label text-[#20333e]">Staged for ingestion</p>
-            <button type="button" onClick={clearFiles} className="flex items-center gap-1 text-[10px] font-bold text-[#ba1a1a]"><X className="size-3" /> Clear</button>
+            <p className="technical-label text-slate-800 dark:text-slate-200">Staged for ingestion</p>
+            <button type="button" onClick={clearFiles} className="flex items-center gap-1 text-[10px] font-bold text-rose-700 dark:text-rose-300"><X className="size-3" /> Clear</button>
           </div>
           <div className="mt-3 grid min-w-0 gap-2">
             {selected.map((file, index) => (
-              <div key={`${file.name}-${file.lastModified}`} className="flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-[#d7e8ef] bg-white p-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-[#eaf5ff] text-[#006397]"><ImagePlus className="size-5" /></span>
+              <div key={`${file.name}-${file.lastModified}`} className="flex w-full min-w-0 items-center gap-3 overflow-hidden rounded-xl border border-sky-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-lg bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300"><ImagePlus className="size-5" /></span>
                 <div className="min-w-0 flex-1">
                   <p className="block max-w-full truncate text-xs font-bold" title={file.name}>{file.name}</p>
-                  <p className="mt-1 text-[10px] text-[#6f8290]">{formatFileSize(file.size)} · ready</p>
+                  <p className="mt-1 text-[10px] text-slate-500 dark:text-slate-400">{formatFileSize(file.size)} · ready</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => removeFile(index)}
-                  className="grid size-9 shrink-0 place-items-center rounded-lg text-[#ba1a1a] transition hover:bg-[#ffdad6] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#30afff]"
+                  className="grid size-9 shrink-0 place-items-center rounded-lg text-rose-700 transition hover:bg-rose-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 dark:text-rose-300 dark:hover:bg-rose-950/60 dark:focus-visible:ring-sky-300"
                   aria-label={`Remove ${file.name}`}
                   title="Remove image"
                 >
@@ -233,7 +233,7 @@ export function UploadImageForm({
       ) : null}
 
       {form.formState.errors.root?.message ? (
-        <p className="rounded-xl bg-[#ffdad6] p-3 text-xs font-bold text-[#93000a]">{form.formState.errors.root.message}</p>
+        <p className="rounded-xl bg-rose-100 dark:bg-rose-950/60 p-3 text-xs font-bold text-rose-950 dark:text-rose-200">{form.formState.errors.root.message}</p>
       ) : null}
 
       <Button type="submit" size="lg" className="w-full" disabled={!selected.length || exceedsStorage || form.formState.isSubmitting}>

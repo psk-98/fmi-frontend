@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 import type { User } from "@/lib/schemas";
 import { cn, initials } from "@/lib/utils";
 
@@ -57,24 +58,24 @@ export function SiteHeader({ user }: { user: User | null }) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-[#d7e8ef]/90 bg-[#f7fcff]/92 backdrop-blur-2xl">
+      <header className="sticky top-0 z-50 border-b border-sky-200/90 dark:border-slate-700/90 bg-sky-50/92 dark:bg-slate-950/92 backdrop-blur-2xl">
         <div className="page-shell flex h-16 items-center justify-between gap-5">
           <Link href="/" className="flex items-center gap-3" aria-label="FMI home">
-            <span className="size-2.5 rounded-full bg-[#30afff] shadow-[0_0_0_4px_rgba(48,175,255,.08)]" />
+            <span className="size-2.5 rounded-full bg-sky-400 ring-4 ring-sky-400/10" />
             <span className="text-xl font-black tracking-[-0.08em]">fmi</span>
-            <span className="hidden text-[10px] uppercase tracking-[0.15em] text-[#6f8290] sm:block">
+            <span className="hidden text-[10px] uppercase tracking-[0.15em] text-slate-500 dark:text-slate-400 sm:block">
               face / media / index
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-1 md:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
             {publicLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "rounded-lg px-4 py-2 text-xs font-bold text-[#6f8290] transition hover:bg-[#eaf5ff] hover:text-[#091e29]",
-                  isActive(pathname, link.href) && "bg-[#eaf5ff] text-[#006397]",
+                  "rounded-lg px-4 py-2 text-xs font-bold text-slate-500 dark:text-slate-400 transition hover:bg-sky-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-50",
+                  isActive(pathname, link.href) && "bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300",
                 )}
               >
                 {link.label}
@@ -85,8 +86,8 @@ export function SiteHeader({ user }: { user: User | null }) {
                 <Link
                   href="/dashboard"
                   className={cn(
-                    "rounded-lg px-4 py-2 text-xs font-bold text-[#6f8290] transition hover:bg-[#eaf5ff] hover:text-[#091e29]",
-                    isActive(pathname, "/dashboard") && "bg-[#eaf5ff] text-[#006397]",
+                    "rounded-lg px-4 py-2 text-xs font-bold text-slate-500 dark:text-slate-400 transition hover:bg-sky-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-50",
+                    isActive(pathname, "/dashboard") && "bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300",
                   )}
                 >
                   Dashboard
@@ -94,8 +95,8 @@ export function SiteHeader({ user }: { user: User | null }) {
                 <Link
                   href="/galleries"
                   className={cn(
-                    "rounded-lg px-4 py-2 text-xs font-bold text-[#6f8290] transition hover:bg-[#eaf5ff] hover:text-[#091e29]",
-                    isActive(pathname, "/galleries") && "bg-[#eaf5ff] text-[#006397]",
+                    "rounded-lg px-4 py-2 text-xs font-bold text-slate-500 dark:text-slate-400 transition hover:bg-sky-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-50",
+                    isActive(pathname, "/galleries") && "bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300",
                   )}
                 >
                   Galleries
@@ -103,8 +104,8 @@ export function SiteHeader({ user }: { user: User | null }) {
                 <Link
                   href="/search"
                   className={cn(
-                    "flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold text-[#6f8290] transition hover:bg-[#eaf5ff] hover:text-[#091e29]",
-                    isActive(pathname, "/search") && "bg-[#eaf5ff] text-[#006397]",
+                    "flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold text-slate-500 dark:text-slate-400 transition hover:bg-sky-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-50",
+                    isActive(pathname, "/search") && "bg-sky-100 dark:bg-slate-800 text-sky-700 dark:text-sky-300",
                   )}
                 >
                   <ScanSearch className="size-3.5" /> Visual search
@@ -114,6 +115,7 @@ export function SiteHeader({ user }: { user: User | null }) {
           </nav>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button asChild variant="ghost" size="icon" aria-label="Search">
               <Link href={user ? "/search" : "/explore"}>
                 <Search />
@@ -152,7 +154,7 @@ export function SiteHeader({ user }: { user: User | null }) {
       </header>
 
       <nav
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-[#d7e8ef] bg-[#f7fcff]/95 px-3 pb-[max(.55rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-2xl md:hidden"
+        className="fixed inset-x-0 bottom-0 z-50 border-t border-sky-200 dark:border-slate-700 bg-sky-50/95 dark:bg-slate-950/95 px-3 pb-[max(.55rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-2xl lg:hidden"
         aria-label="Mobile navigation"
       >
         <div className="mx-auto flex max-w-md items-end">
@@ -165,14 +167,14 @@ export function SiteHeader({ user }: { user: User | null }) {
                 href={link.href}
                 aria-label={user && center ? "Add a gallery" : link.label}
                 className={cn(
-                  "flex min-w-0 flex-1 flex-col items-center gap-1 text-[9px] text-[#3f5663]",
-                  isActive(pathname, link.href) && "text-[#006397]",
+                  "flex min-w-0 flex-1 flex-col items-center gap-1 text-[9px] text-slate-600 dark:text-slate-300",
+                  isActive(pathname, link.href) && "text-sky-700 dark:text-sky-300",
                 )}
               >
                 <span
                   className={cn(
                     "grid size-8 place-items-center rounded-full",
-                    center && "-mt-7 size-12 bg-[#30afff] text-[#07141d] shadow-[0_8px_24px_-8px_rgba(0,99,151,.65)]",
+                    center && "-mt-7 size-12 bg-sky-400 text-slate-950 shadow-lg shadow-sky-900/30",
                   )}
                 >
                   <Icon className="size-5" />

@@ -1,42 +1,60 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --canvas: #f7fcff;
-  --surface: #ffffff;
-  --surface-low: #eaf5ff;
-  --surface-high: #d7ebfa;
-  --ink: #091e29;
-  --ink-soft: #3f5663;
-  --muted: #6f8290;
-  --line: #d7e8ef;
-  --line-strong: #cde5ef;
-  --primary: #30afff;
-  --primary-deep: #006397;
-  --cyan: #92eeff;
-  --mint: #d8ffc5;
-  --success: #1f9d64;
-  --danger: #d9535f;
-  --warning: #c77b00;
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 * {
-  border-color: var(--line);
+  border-color: var(--color-sky-200);
+}
+
+.dark * {
+  border-color: var(--color-slate-700);
 }
 
 html {
+  @apply bg-sky-50 dark:bg-slate-950;
   scroll-behavior: smooth;
 }
 
 body {
+  @apply text-slate-950 dark:text-slate-50;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 8% 5%, rgb(146 238 255 / 16%), transparent 24rem),
-    radial-gradient(circle at 94% 10%, rgb(216 255 197 / 18%), transparent 26rem),
-    var(--canvas);
-  color: var(--ink);
+  background-image:
+    radial-gradient(
+      circle at 8% 5%,
+      color-mix(in srgb, var(--color-cyan-300) 16%, transparent),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 94% 10%,
+      color-mix(in srgb, var(--color-lime-200) 18%, transparent),
+      transparent 26rem
+    );
   font-family: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas,
     "Liberation Mono", monospace;
   text-rendering: optimizeLegibility;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.dark body {
+  background-image:
+    radial-gradient(
+      circle at 8% 5%,
+      color-mix(in srgb, var(--color-cyan-400) 10%, transparent),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 94% 10%,
+      color-mix(in srgb, var(--color-lime-300) 8%, transparent),
+      transparent 26rem
+    );
 }
 
 main {
@@ -44,8 +62,8 @@ main {
 }
 
 ::selection {
-  background: var(--cyan);
-  color: var(--ink);
+  background: var(--color-cyan-200);
+  color: var(--color-slate-950);
 }
 
 button,
@@ -74,21 +92,36 @@ select {
 }
 
 .system-grid {
-  background-image: radial-gradient(rgb(0 99 151 / 19%) 0.75px, transparent 0.75px);
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-sky-700) 19%, transparent) 0.75px,
+    transparent 0.75px
+  );
   background-size: 16px 16px;
+}
+
+.dark .system-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-sky-300) 20%, transparent) 0.75px,
+    transparent 0.75px
+  );
 }
 
 .mesh-grid {
   background-image:
-    linear-gradient(rgb(146 238 255 / 10%) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(146 238 255 / 10%) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--color-cyan-300) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-300) 10%, transparent) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
 .image-wash {
   background:
-    linear-gradient(135deg, rgb(0 64 99 / 88%), rgb(48 175 255 / 22%)),
-    radial-gradient(circle at 70% 24%, #92eeff, transparent 28%), #07141d;
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-sky-950) 88%, transparent),
+      color-mix(in srgb, var(--color-sky-400) 22%, transparent)
+    ),
+    radial-gradient(circle at 70% 24%, var(--color-cyan-300), transparent 28%),
+    var(--color-slate-950);
 }
 
 .technical-label {
@@ -106,11 +139,13 @@ select {
   display: none;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1023px) {
   body {
     padding-bottom: 5.25rem;
   }
+}
 
+@media (max-width: 767px) {
   .page-shell {
     width: min(100% - 1.25rem, 82rem);
   }

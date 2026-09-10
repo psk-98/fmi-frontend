@@ -21,16 +21,16 @@ export default async function ProfilePage() {
 
   return (
     <section className="pb-10">
-      <div className="system-grid h-40 border-b border-[#d7e8ef] bg-gradient-to-r from-[#92eeff]/55 via-[#eaf5ff] to-[#d8ffc5]/65 sm:h-52" />
+      <div className="system-grid h-40 border-b border-sky-200 dark:border-slate-700 bg-gradient-to-r from-cyan-200/55 dark:from-cyan-400/25 via-sky-100 dark:via-slate-800 to-lime-200/65 dark:to-lime-400/20 sm:h-52" />
       <div className="page-shell -mt-14">
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div>
-            <div className="relative grid size-24 place-items-center rounded-2xl border-4 border-[#f7fcff] bg-[#20333e] text-2xl font-black text-white shadow-lg">
+            <div className="relative grid size-24 place-items-center rounded-2xl border-4 border-sky-50 dark:border-slate-950 bg-slate-800 text-2xl font-black text-white shadow-lg">
               {initials(user.name)}
-              <span className="absolute -bottom-1 -right-1 size-4 rounded-full border-2 border-white bg-[#1f9d64]" />
+              <span className="absolute -bottom-1 -right-1 size-4 rounded-full border-2 border-sky-50 dark:border-slate-950 bg-emerald-500 dark:bg-emerald-400" />
             </div>
             <h1 className="editorial-type mt-4 break-words text-4xl font-semibold">{user.name}</h1>
-            <p className="mt-1 flex min-w-0 items-start gap-2 break-all text-xs font-bold text-[#006397]"><AtSign className="mt-0.5 size-3.5 shrink-0" /> {user.email}</p>
+            <p className="mt-1 flex min-w-0 items-start gap-2 break-all text-xs font-bold text-sky-700 dark:text-sky-300"><AtSign className="mt-0.5 size-3.5 shrink-0" /> {user.email}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button asChild variant="outline"><Link href="/search"><ScanSearch /> Search faces</Link></Button>
@@ -38,11 +38,11 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        <p className="mt-5 max-w-2xl text-sm leading-7 text-[#557080]">
+        <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-600 dark:text-slate-300">
           Visual curator and archive owner. Building searchable collections through precise multi-face indexing.
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <Badge><span className="size-1.5 rounded-full bg-[#1f9d64]" /> Active curator</Badge>
+          <Badge><span className="size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" /> Active curator</Badge>
           <Badge variant="neutral"><MapPin className="size-3" /> FMI network</Badge>
           <Badge variant="neutral"><CalendarDays className="size-3" /> Joined {formatDate(user.created_at)}</Badge>
         </div>
@@ -61,17 +61,17 @@ export default async function ProfilePage() {
           ].map(([label, value, Icon]) => {
             const IconComponent = Icon as typeof Grid2X2;
             return (
-              <div key={String(label)} className="rounded-2xl bg-[#eaf5ff] p-5">
-                <IconComponent className="size-5 text-[#006397]" />
+              <div key={String(label)} className="rounded-2xl bg-sky-100 dark:bg-slate-800 p-5">
+                <IconComponent className="size-5 text-sky-700 dark:text-sky-300" />
                 <p className="mt-5 text-3xl font-black">{String(value).padStart(2, "0")}</p>
-                <p className="technical-label mt-1 text-[#6f8290]">{String(label)}</p>
+                <p className="technical-label mt-1 text-slate-500 dark:text-slate-400">{String(label)}</p>
               </div>
             );
           })}
         </div>
 
         <div className="mt-12 flex flex-wrap items-end justify-between gap-4">
-          <div><p className="technical-label text-[#006397]">Creator profile / collections</p><h2 className="display-type mt-2 text-3xl">Curated galleries</h2></div>
+          <div><p className="technical-label text-sky-700 dark:text-sky-300">Creator profile / collections</p><h2 className="display-type mt-2 text-3xl">Curated galleries</h2></div>
           <Badge variant="neutral">{galleries.length} sets</Badge>
         </div>
 
@@ -80,7 +80,7 @@ export default async function ProfilePage() {
             {galleries.map((gallery) => <GalleryCard key={gallery.uid} gallery={gallery} href={`/galleries/${gallery.uid}`} />)}
           </div>
         ) : (
-          <div className="system-grid mt-6 rounded-3xl border border-dashed border-[#cde5ef] bg-[#eaf5ff] p-8 text-center text-xs text-[#6f8290] sm:p-16">No curated galleries yet.</div>
+          <div className="system-grid mt-6 rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100 dark:bg-slate-800 p-8 text-center text-xs text-slate-500 dark:text-slate-400 sm:p-16">No curated galleries yet.</div>
         )}
       </div>
     </section>

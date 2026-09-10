@@ -5,17 +5,17 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] text-sm font-bold transition-all outline-none disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-[#30afff] focus-visible:ring-offset-2 [&_svg]:size-4",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[10px] text-sm font-bold transition-all outline-none disabled:pointer-events-none disabled:opacity-50 focus-visible:ring-2 focus-visible:ring-sky-400 dark:focus-visible:ring-sky-300 focus-visible:ring-offset-2 focus-visible:ring-offset-sky-50 dark:focus-visible:ring-offset-slate-950 [&_svg]:size-4",
   {
     variants: {
       variant: {
         default:
-          "bg-[#30afff] text-[#07141d] shadow-[0_10px_24px_-14px_rgba(0,99,151,.75)] hover:-translate-y-0.5 hover:bg-[#20a7fb]",
-        dark: "bg-[#0b1f2a] text-white hover:-translate-y-0.5 hover:bg-[#173746]",
+          "bg-sky-400 text-slate-950 shadow-lg shadow-sky-900/20 hover:-translate-y-0.5 hover:bg-sky-500 dark:hover:bg-sky-300",
+        dark: "bg-slate-900 dark:bg-lime-200 text-white dark:text-slate-950 hover:-translate-y-0.5 hover:bg-slate-700 dark:hover:bg-lime-300",
         outline:
-          "border border-[#cde5ef] bg-white text-[#091e29] hover:border-[#30afff] hover:bg-[#eaf5ff]",
-        ghost: "text-[#3f5663] hover:bg-[#eaf5ff] hover:text-[#091e29]",
-        destructive: "bg-[#d9535f] text-white hover:bg-[#c94350]",
+          "border border-sky-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-950 dark:text-slate-50 hover:border-sky-400 dark:hover:border-sky-300 hover:bg-sky-100 dark:hover:bg-slate-800",
+        ghost: "text-slate-600 dark:text-slate-300 hover:bg-sky-100 dark:hover:bg-slate-800 hover:text-slate-950 dark:hover:text-slate-50",
+        destructive: "bg-rose-500 text-white hover:bg-rose-600 dark:hover:bg-rose-400",
       },
       size: {
         default: "h-11 px-5",
