@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   ArrowUpDown,
@@ -18,6 +19,7 @@ import { ImageCard } from "@/components/gallery/image-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ShareButton } from "@/components/ui/share-button";
+import { StorageUsage } from "@/components/ui/storage-usage";
 import { ConfirmModal } from "@/components/ui/modal";
 import {
   Card,
@@ -27,7 +29,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ApiError, apiRequest } from "@/lib/api";
-import { galleryResponseSchema, type Gallery } from "@/lib/schemas";
+import { galleryResponseSchema, type Gallery, type User } from "@/lib/schemas";
 
 type ImageSort = "date-desc" | "date-asc" | "faces-desc" | "faces-asc";
 
@@ -36,8 +38,16 @@ function imageCreatedAt(value?: string | null) {
   return Number.isNaN(timestamp) ? 0 : timestamp;
 }
 
-export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
+export function GalleryStudio({
+  initialGallery,
+  user,
+}: {
+  initialGallery: Gallery;
+  user: User;
+}) {
+  const router = useRouter();
   const [gallery, setGallery] = useState(initialGallery);
+  const [storageUsedBytes, setStorageUsedBytes] = useState(user.storage_used_bytes);
   const [message, setMessage] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [reprocessing, setReprocessing] = useState(false);
@@ -46,7 +56,9 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
   >(null);
   const [imageSort, setImageSort] = useState<ImageSort>("date-desc");
   const [pendingDeleteUid, setPendingDeleteUid] = useState<string | null>(null);
-  const [deleting, setDeleting] = useState(false);
+  const [deletingImage, setDeletingImage] = useState(false);
+  const [galleryDeleteOpen, setGalleryDeleteOpen] = useState(false);
+  const [deletingGallery, setDeletingGallery] = useState(false);
   const hasProcessingImages = useMemo(
     () =>
       gallery.images.some(
@@ -128,7 +140,9 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
   async function deleteImage() {
     if (!pendingDeleteUid) return;
 
-    setDeleting(true);
+    const deletedBytes = pendingDeleteImage?.file_size ?? 0;
+
+    setDeletingImage(true);
     setMessage(null);
 
     try {
@@ -141,6 +155,7 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
           (current.images_count ?? current.images.length) - 1,
         ),
       }));
+      setStorageUsedBytes((current) => Math.max(0, current - deletedBytes));
       setPendingDeleteUid(null);
       setMessage("The image was deleted.");
     } catch (error) {
@@ -150,7 +165,28 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
           : "Could not delete the image.",
       );
     } finally {
-      setDeleting(false);
+      setDeletingImage(false);
+    }
+  }
+
+  async function deleteGallery() {
+    setDeletingGallery(true);
+    setMessage(null);
+
+    try {
+      await apiRequest(`galleries/${gallery.uid}`, { method: "DELETE" });
+      setGalleryDeleteOpen(false);
+      router.replace("/galleries");
+      router.refresh();
+    } catch (error) {
+      setGalleryDeleteOpen(false);
+      setMessage(
+        error instanceof ApiError
+          ? error.message
+          : "Could not delete the gallery.",
+      );
+    } finally {
+      setDeletingGallery(false);
     }
   }
 
@@ -280,6 +316,12 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
             {gallery.visibility === "public" ? <LockKeyhole /> : <Globe2 />}{" "}
             Make {gallery.visibility === "public" ? "private" : "public"}
           </Button>
+          <Button
+            variant="destructive"
+            onClick={() => setGalleryDeleteOpen(true)}
+          >
+            <Trash2 /> Delete gallery
+          </Button>
         </div>
       </div>
 
@@ -300,16 +342,32 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
             </CardDescription>
           </CardHeader>
           <CardContent className="min-w-0">
+            <StorageUsage
+              className="mb-5"
+              compact
+              usedBytes={storageUsedBytes}
+              quotaBytes={user.storage_quota_bytes}
+            />
             <UploadImageForm
               galleryUid={gallery.uid}
-              onUploaded={(images) =>
+              storageRemainingBytes={Math.max(
+                0,
+                user.storage_quota_bytes - storageUsedBytes,
+              )}
+              onUploaded={(images) => {
                 setGallery((current) => ({
                   ...current,
                   images: [...images, ...current.images],
                   images_count:
                     (current.images_count ?? current.images.length) + images.length,
-                }))
-              }
+                }));
+                setStorageUsedBytes((current) =>
+                  current + images.reduce(
+                    (total, image) => total + (image.file_size ?? 0),
+                    0,
+                  ),
+                );
+              }}
             />
           </CardContent>
         </Card>
@@ -398,7 +456,16 @@ export function GalleryStudio({ initialGallery }: { initialGallery: Gallery }) {
         title="Delete this image?"
         description={`This permanently removes ${pendingDeleteImage?.original_name || "this image"} from the gallery. This action cannot be undone.`}
         confirmLabel="Delete image"
-        pending={deleting}
+        pending={deletingImage}
+      />
+      <ConfirmModal
+        open={galleryDeleteOpen}
+        onClose={() => setGalleryDeleteOpen(false)}
+        onConfirm={deleteGallery}
+        title={`Delete ${gallery.name}?`}
+        description={`This permanently deletes the gallery and all ${gallery.images.length} images in it. Their storage space will be freed. This action cannot be undone.`}
+        confirmLabel="Delete gallery"
+        pending={deletingGallery}
       />
     </>
   );

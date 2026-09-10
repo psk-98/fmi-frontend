@@ -5,6 +5,7 @@ import { AtSign, CalendarDays, Grid2X2, Images, MapPin, ScanSearch } from "lucid
 import { GalleryCard } from "@/components/gallery/gallery-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { StorageUsage } from "@/components/ui/storage-usage";
 import { getMyGalleries, requireCurrentUser } from "@/lib/server-api";
 import { formatDate, initials } from "@/lib/utils";
 
@@ -45,6 +46,12 @@ export default async function ProfilePage() {
           <Badge variant="neutral"><MapPin className="size-3" /> FMI network</Badge>
           <Badge variant="neutral"><CalendarDays className="size-3" /> Joined {formatDate(user.created_at)}</Badge>
         </div>
+
+        <StorageUsage
+          className="mt-6"
+          usedBytes={user.storage_used_bytes}
+          quotaBytes={user.storage_quota_bytes}
+        />
 
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {[

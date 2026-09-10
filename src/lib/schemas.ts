@@ -5,6 +5,9 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.email(),
   role: z.enum(["admin", "moderator", "user"]),
+  storage_used_bytes: z.number().int().nonnegative(),
+  storage_quota_bytes: z.number().int().nonnegative(),
+  storage_remaining_bytes: z.number().int().nonnegative(),
   created_at: z.string().nullable().optional(),
 });
 

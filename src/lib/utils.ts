@@ -35,6 +35,21 @@ export function formatSimilarity(value?: number) {
   return `${Math.round(value * 100)}%`;
 }
 
+export function formatFileSize(bytes: number) {
+  const safeBytes = Math.max(0, bytes);
+
+  if (safeBytes === 0) return "0 B";
+
+  const units = ["B", "KB", "MB", "GB", "TB"] as const;
+  const unitIndex = Math.min(
+    Math.floor(Math.log(safeBytes) / Math.log(1024)),
+    units.length - 1,
+  );
+  const value = safeBytes / 1024 ** unitIndex;
+
+  return `${value >= 10 || unitIndex === 0 ? value.toFixed(0) : value.toFixed(1)} ${units[unitIndex]}`;
+}
+
 export function initials(value: string) {
   return value
     .split(/\s+/)

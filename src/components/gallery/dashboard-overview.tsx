@@ -10,6 +10,7 @@ import { GalleryCard } from "@/components/gallery/gallery-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { StorageUsage } from "@/components/ui/storage-usage";
 import type { Gallery, User } from "@/lib/schemas";
 
 export function DashboardOverview({
@@ -63,6 +64,12 @@ export function DashboardOverview({
           );
         })}
       </div>
+
+      <StorageUsage
+        className="mt-4"
+        usedBytes={user.storage_used_bytes}
+        quotaBytes={user.storage_quota_bytes}
+      />
 
       <AnimatePresence>
         {creating ? (
