@@ -61,7 +61,7 @@ export function CreateGalleryForm({
       >
         <Input
           id="gallery-name"
-          placeholder="Red carpet portraits"
+          placeholder="Neon dreams & portraits"
           {...form.register("name")}
         />
       </Field>
@@ -72,7 +72,7 @@ export function CreateGalleryForm({
       >
         <Textarea
           id="gallery-description"
-          placeholder="What belongs in this collection?"
+          placeholder="Describe the visual language of this collection."
           {...form.register("description")}
         />
       </Field>
@@ -83,7 +83,7 @@ export function CreateGalleryForm({
       >
         <select
           id="gallery-visibility"
-          className="h-12 rounded-2xl border border-neutral-200 bg-white px-4 text-sm outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-500/10"
+          className="h-13 w-full min-w-0 rounded-xl border border-transparent bg-sky-100 dark:bg-slate-800 px-4 text-sm text-slate-950 dark:text-slate-50 outline-none focus:border-sky-400 dark:focus:border-sky-300 focus:ring-2 focus:ring-sky-400/20 dark:focus:ring-sky-300/20"
           {...form.register("visibility")}
         >
           <option value="private">Private — only you and moderators</option>
@@ -93,7 +93,7 @@ export function CreateGalleryForm({
         </select>
       </Field>
       {form.formState.errors.root?.message ? (
-        <p className="text-sm text-red-600">
+        <p className="text-xs text-rose-700 dark:text-rose-300">
           {form.formState.errors.root.message}
         </p>
       ) : null}

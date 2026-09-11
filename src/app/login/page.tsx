@@ -1,70 +1,53 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
-import { ScanFace, ShieldCheck, Sparkles } from "lucide-react";
+import { Images, ShieldCheck } from "lucide-react";
 
 import { LoginForm } from "@/components/forms/login-form";
 import { Badge } from "@/components/ui/badge";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { getCurrentUser } from "@/lib/server-api";
 
 export const metadata: Metadata = { title: "Sign in" };
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ expired?: string }>;
+}) {
   if (await getCurrentUser()) redirect("/dashboard");
+  const { expired } = await searchParams;
 
   return (
-    <section className="page-shell grid min-h-[calc(100vh-4.5rem)] items-center gap-10 py-12 lg:grid-cols-[1fr_.82fr]">
-      <div className="image-wash mesh-grid relative hidden min-h-[42rem] overflow-hidden rounded-[2.25rem] p-12 text-white lg:block">
-        <Badge className="bg-emerald-300 text-emerald-950">
-          <Sparkles className="size-3" /> Visual workspace
-        </Badge>
-        <h1 className="display-type mt-8 max-w-xl text-7xl leading-[.92]">
-          Every face has somewhere to be found.
-        </h1>
-        <p className="mt-6 max-w-md text-base leading-7 text-white/60">
-          Manage private galleries, watch image processing, and search all
-          accessible collections from one quiet workspace.
-        </p>
-        <div className="absolute inset-x-12 bottom-12 grid grid-cols-2 gap-4">
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-            <ScanFace className="size-5 text-emerald-300" />
-            <p className="mt-8 text-2xl font-bold">Multi-face</p>
-            <p className="mt-1 text-xs text-white/45">
-              One vector per detected person
-            </p>
-          </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-            <ShieldCheck className="size-5 text-emerald-300" />
-            <p className="mt-8 text-2xl font-bold">Private</p>
-            <p className="mt-1 text-xs text-white/45">
-              HTTP-only token sessions
-            </p>
-          </div>
+    <section className="page-shell grid min-h-[calc(100vh-4rem)] place-items-center py-10 sm:py-16">
+      <div className="w-full max-w-2xl">
+        <div className="text-center">
+          <span className="mx-auto grid size-20 place-items-center rounded-3xl bg-sky-200 text-sky-700 shadow-xl shadow-sky-900/10 dark:bg-slate-700 dark:text-sky-300 dark:shadow-black/25">
+            <Images className="size-9" />
+          </span>
+          <Badge variant="neutral" className="mt-5"><span className="size-1.5 rounded-full bg-sky-700 dark:bg-sky-300" /> Gallery / auth</Badge>
+          <h1 className="display-type mt-5 text-4xl sm:text-5xl">Welcome back</h1>
+          <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">The digital home for precision visual archives.</p>
         </div>
-      </div>
 
-      <Card className="mx-auto w-full max-w-lg border-0 bg-transparent shadow-none sm:border sm:bg-white/80 sm:shadow-[0_24px_80px_-48px_rgba(10,30,22,.35)]">
-        <CardHeader className="p-0 pb-8 sm:p-8 sm:pb-7">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-emerald-700">
-            Welcome back
-          </p>
-          <CardTitle className="display-type mt-3 text-5xl">
-            Sign in to FMI.
-          </CardTitle>
-          <CardDescription>
-            Use your gallery account to continue.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 sm:p-8 sm:pt-0">
+        <div className="mt-10 overflow-hidden rounded-3xl border border-sky-200 bg-white p-6 shadow-2xl shadow-slate-900/10 dark:border-slate-700 dark:bg-slate-900 dark:shadow-black/30 sm:p-10">
+          <div className="mb-8 grid grid-cols-2 rounded-xl bg-sky-100 dark:bg-slate-800 p-1.5 text-sm font-bold">
+            <span className="rounded-lg bg-sky-400 px-4 py-3 text-center text-slate-950">Sign in</span>
+            <Link href="/register" className="rounded-lg px-4 py-3 text-center text-slate-600 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-900">Create account</Link>
+          </div>
+          {expired === "1" ? (
+            <p className="mb-6 rounded-xl bg-amber-100 dark:bg-amber-950/60 px-4 py-3 text-xs font-bold text-amber-900 dark:text-amber-200">
+              Your session expired. Sign in again to continue.
+            </p>
+          ) : null}
           <LoginForm />
-        </CardContent>
-      </Card>
+        </div>
+
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-sky-100 dark:bg-slate-800 p-4 text-xs text-slate-600 dark:text-slate-300">
+          <span className="flex items-center gap-2"><ShieldCheck className="size-4 text-emerald-600 dark:text-emerald-400" /> Secure HTTP-only session</span>
+          <Badge>live</Badge>
+        </div>
+        <p className="mt-7 text-center text-xs text-slate-500 dark:text-slate-400">New to FMI? <Link href="/register" className="font-bold text-sky-700 dark:text-sky-300">Create an account</Link></p>
+      </div>
     </section>
   );
 }

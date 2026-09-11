@@ -17,7 +17,7 @@ export default function ErrorPage({
           <TriangleAlert className="size-7" />
         </span>
         <h1 className="display-type mt-6 text-5xl">The frame slipped.</h1>
-        <p className="mt-3 text-sm leading-6 text-neutral-500">
+        <p className="mt-3 text-sm leading-6 text-slate-500 dark:text-slate-400">
           Something interrupted this view. Your images and galleries are
           unchanged.
         </p>

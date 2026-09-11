@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 
-import { TOKEN_COOKIE } from "@/lib/server-api";
+import { TOKEN_COOKIE } from "@/lib/auth";
 
 type RouteContext = { params: Promise<{ path: string[] }> };
 

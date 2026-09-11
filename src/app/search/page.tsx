@@ -1,17 +1,22 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 import { SearchWorkspace } from "@/components/gallery/search-workspace";
-import { getCurrentUser } from "@/lib/server-api";
+import { getMyGalleries, requireCurrentUser } from "@/lib/server-api";
 
 export const metadata: Metadata = { title: "Search faces" };
 
-export default async function SearchPage() {
-  if (!(await getCurrentUser())) redirect("/login");
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ gallery?: string }>;
+}) {
+  await requireCurrentUser();
+  const galleries = await getMyGalleries();
+  const { gallery } = await searchParams;
 
   return (
     <section className="page-shell py-12 sm:py-16">
-      <SearchWorkspace />
+      <SearchWorkspace galleries={galleries} initialGalleryUid={gallery} />
     </section>
   );
 }

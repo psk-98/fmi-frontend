@@ -1,0 +1,15 @@
+.git
+.next
+.tmp
+node_modules
+out
+playwright-report
+test-results
+blob-report
+e2e
+.env
+.env.*
+!.env.example
+*.log
+*.tsbuildinfo
+.DS_Store
