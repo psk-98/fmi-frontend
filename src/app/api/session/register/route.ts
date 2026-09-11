@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
 import { TOKEN_COOKIE } from "@/lib/auth";
-import { loginResponseSchema, registerFormSchema } from "@/lib/schemas";
+import { registerFormSchema, registrationResponseSchema } from "@/lib/schemas";
 
 export async function POST(request: Request) {
   const input = registerFormSchema.safeParse(await request.json().catch(() => null));
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     const payload: unknown = await response.json().catch(() => ({}));
     if (!response.ok) return NextResponse.json(payload, { status: response.status });
 
-    const registration = loginResponseSchema.safeParse(payload);
+    const registration = registrationResponseSchema.safeParse(payload);
     if (!registration.success) {
       return NextResponse.json({ message: "The API returned an invalid registration response." }, { status: 502 });
     }

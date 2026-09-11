@@ -46,8 +46,10 @@ export function UploadImageForm({
       return;
     }
 
-    const body = new FormData();
-    Array.from(values.images).forEach((file) => body.append("images[]", file));
+		const body = new FormData();
+		Array.from(values.images).forEach((file) => {
+			body.append("images[]", file);
+		});
 
     try {
       const payload = await apiRequest<unknown>(`galleries/${galleryUid}/images`, {

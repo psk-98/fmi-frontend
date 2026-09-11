@@ -19,9 +19,8 @@ export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
 
   return (
-    <div
+		<fieldset
       className="flex items-center rounded-full border border-sky-200 bg-sky-100 p-1 shadow-inner shadow-white/60 dark:border-slate-700 dark:bg-slate-800 dark:shadow-white/5"
-      role="group"
       aria-label="Color theme"
     >
       {options.map(({ value, label, icon: Icon }) => {
@@ -45,6 +44,6 @@ export function ThemeToggle() {
           </button>
         );
       })}
-    </div>
+		</fieldset>
   );
 }

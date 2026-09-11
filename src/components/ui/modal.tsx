@@ -57,7 +57,8 @@ export function Modal({
   if (!open) return null;
 
   return createPortal(
-    <div
+		// biome-ignore lint/a11y/noStaticElementInteractions: The backdrop only handles pointer dismissal; the nested dialog owns keyboard interaction.
+		<div
       className="fixed inset-0 z-[100] grid place-items-center overflow-y-auto bg-slate-950/70 p-3 backdrop-blur-sm sm:p-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();

@@ -35,9 +35,10 @@ export default async function RootLayout({
   const user = await getCurrentUser();
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+		<html lang="en" suppressHydrationWarning>
+			<head>
+				{/* biome-ignore lint/security/noDangerouslySetInnerHtml: This constant, user-input-free script applies the saved theme before first paint. */}
+				<script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
       <body>
         <ThemeProvider>

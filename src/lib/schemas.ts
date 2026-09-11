@@ -1,10 +1,12 @@
 import { z } from "zod";
 
+const userRoleSchema = z.enum(["admin", "moderator", "user"]);
+
 export const userSchema = z.object({
   id: z.number(),
   name: z.string(),
   email: z.email(),
-  role: z.enum(["admin", "moderator", "user"]),
+  role: userRoleSchema,
   storage_used_bytes: z.number().int().nonnegative(),
   storage_quota_bytes: z.number().int().nonnegative(),
   storage_remaining_bytes: z.number().int().nonnegative(),
@@ -70,6 +72,12 @@ export const userResponseSchema = z.object({ data: userSchema });
 export const loginResponseSchema = z.object({
   token: z.string(),
   user: userSchema,
+});
+export const registrationResponseSchema = z.object({
+  token: z.string(),
+  user: userSchema.extend({
+    role: userRoleSchema.nullish().transform((role) => role ?? "user"),
+  }),
 });
 
 export const loginFormSchema = z.object({

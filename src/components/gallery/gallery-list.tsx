@@ -53,10 +53,11 @@ export function GalleryList({ galleries }: { galleries: Gallery[] }) {
       </div>
 
       <div className="mt-7 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]">
-        <label className="relative min-w-0">
+		<label htmlFor="gallery-name-search" className="relative min-w-0">
           <span className="sr-only">Search galleries by name</span>
           <Search className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-sky-700 dark:text-sky-300" />
-          <Input
+			<Input
+				id="gallery-name-search"
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}

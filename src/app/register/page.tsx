@@ -9,6 +9,12 @@ import { getCurrentUser } from "@/lib/server-api";
 
 export const metadata: Metadata = { title: "Create account" };
 
+const registrationHighlights = [
+	{ key: "discover", Icon: Sparkles },
+	{ key: "archive", Icon: Box },
+	{ key: "protect", Icon: ShieldCheck },
+];
+
 export default async function RegisterPage() {
   if (await getCurrentUser()) redirect("/dashboard");
 
@@ -33,9 +39,9 @@ export default async function RegisterPage() {
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">Join FMI to curate, archive, and search precision visual collections.</p>
         </div>
 
-        <div className="mt-7 grid grid-cols-3 gap-3">
-          {[Sparkles, Box, ShieldCheck].map((Icon, index) => (
-            <div key={index} className="system-grid grid h-24 place-items-center rounded-2xl border border-sky-200 dark:border-slate-700 bg-gradient-to-br from-white dark:from-slate-900 to-sky-200 dark:to-slate-700 text-sky-700 dark:text-sky-300">
+		<div className="mt-7 grid grid-cols-3 gap-3">
+			{registrationHighlights.map(({ key, Icon }) => (
+				<div key={key} className="system-grid grid h-24 place-items-center rounded-2xl border border-sky-200 dark:border-slate-700 bg-gradient-to-br from-white dark:from-slate-900 to-sky-200 dark:to-slate-700 text-sky-700 dark:text-sky-300">
               <Icon className="size-6" />
             </div>
           ))}
