@@ -1,16 +1,20 @@
 import "server-only";
 
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { cache } from "react";
 
 import {
   galleryCollectionSchema,
   galleryResponseSchema,
+  imageResponseSchema,
   userResponseSchema,
   type Gallery,
+  type GalleryImage,
   type User,
 } from "@/lib/schemas";
+import { TOKEN_COOKIE } from "@/lib/auth";
 
-export const TOKEN_COOKIE = "fmi_session";
 
 function apiUrl(path: string) {
   const baseUrl = process.env.LARAVEL_API_URL ?? "http://127.0.0.1:8000/api/v1";
@@ -37,12 +41,18 @@ async function serverRequest(path: string, authenticated = false) {
   }
 }
 
-export async function getCurrentUser(): Promise<User | null> {
+export const getCurrentUser = cache(async (): Promise<User | null> => {
   const response = await serverRequest("auth/me", true);
   if (!response?.ok) return null;
 
   const parsed = userResponseSchema.safeParse(await response.json());
   return parsed.success ? parsed.data.data : null;
+});
+
+export async function requireCurrentUser(): Promise<User> {
+  const user = await getCurrentUser();
+  if (!user) redirect("/login");
+  return user;
 }
 
 export async function getPublicGalleries(): Promise<Gallery[]> {
@@ -74,5 +84,21 @@ export async function getOwnedGallery(uid: string): Promise<Gallery | null> {
   if (!response?.ok) return null;
 
   const parsed = galleryResponseSchema.safeParse(await response.json());
+  return parsed.success ? parsed.data.data : null;
+}
+
+export async function getPublicImage(uid: string): Promise<GalleryImage | null> {
+  const response = await serverRequest(`images/${uid}`);
+  if (!response?.ok) return null;
+
+  const parsed = imageResponseSchema.safeParse(await response.json());
+  return parsed.success ? parsed.data.data : null;
+}
+
+export async function getOwnedImage(uid: string): Promise<GalleryImage | null> {
+  const response = await serverRequest(`me/images/${uid}`, true);
+  if (!response?.ok) return null;
+
+  const parsed = imageResponseSchema.safeParse(await response.json());
   return parsed.success ? parsed.data.data : null;
 }

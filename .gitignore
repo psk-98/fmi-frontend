@@ -6,3 +6,7 @@ out/
 *.tsbuildinfo
 pnpm-debug.log*
 .DS_Store
+playwright-report/
+test-results/
+blob-report/
+.tmp/

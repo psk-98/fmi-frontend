@@ -29,6 +29,11 @@ export async function apiRequest<T>(
     T;
 
   if (!response.ok) {
+    if (response.status === 401 && typeof window !== "undefined") {
+      window.location.replace("/login?expired=1");
+      throw new ApiError("Your session has expired.", 401);
+    }
+
     throw new ApiError(
       payload.message ??
         payload.detail ??

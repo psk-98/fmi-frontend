@@ -1,50 +1,69 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #f6f7f2;
-  --foreground: #111714;
-  --emerald: #10b981;
-  --emerald-deep: #064e3b;
-  --line: rgba(23, 37, 31, 0.12);
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 * {
-  border-color: var(--line);
+  border-color: var(--color-sky-200);
+}
+
+.dark * {
+  border-color: var(--color-slate-700);
 }
 
 html {
+  @apply bg-sky-50 dark:bg-slate-950;
   scroll-behavior: smooth;
 }
 
 body {
+  @apply text-slate-950 dark:text-slate-50;
   min-height: 100vh;
-  background:
+  background-image:
     radial-gradient(
-      circle at 12% 8%,
-      rgba(16, 185, 129, 0.09),
+      circle at 8% 5%,
+      color-mix(in srgb, var(--color-cyan-300) 16%, transparent),
+      transparent 24rem
+    ),
+    radial-gradient(
+      circle at 94% 10%,
+      color-mix(in srgb, var(--color-lime-200) 18%, transparent),
       transparent 26rem
+    );
+  font-family: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas,
+    "Liberation Mono", monospace;
+  text-rendering: optimizeLegibility;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.dark body {
+  background-image:
+    radial-gradient(
+      circle at 8% 5%,
+      color-mix(in srgb, var(--color-cyan-400) 10%, transparent),
+      transparent 24rem
     ),
     radial-gradient(
-      circle at 88% 14%,
-      rgba(110, 231, 183, 0.09),
-      transparent 22rem
-    ),
-    var(--background);
-  color: var(--foreground);
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-  text-rendering: optimizeLegibility;
+      circle at 94% 10%,
+      color-mix(in srgb, var(--color-lime-300) 8%, transparent),
+      transparent 26rem
+    );
+}
+
+main {
+  min-height: calc(100vh - 4rem);
 }
 
 ::selection {
-  background: rgba(16, 185, 129, 0.25);
-  color: #052e25;
+  background: var(--color-cyan-200);
+  color: var(--color-slate-950);
 }
 
 button,
@@ -56,27 +75,60 @@ select {
 }
 
 .display-type {
+  font-family: "SFMono-Regular", "Cascadia Code", "Roboto Mono", Consolas,
+    monospace;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+}
+
+.editorial-type {
   font-family: Georgia, "Times New Roman", serif;
-  font-weight: 500;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.025em;
 }
 
 .page-shell {
-  width: min(100% - 2rem, 78rem);
+  width: min(100% - 2rem, 82rem);
   margin-inline: auto;
+}
+
+.system-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-sky-700) 19%, transparent) 0.75px,
+    transparent 0.75px
+  );
+  background-size: 16px 16px;
+}
+
+.dark .system-grid {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--color-sky-300) 20%, transparent) 0.75px,
+    transparent 0.75px
+  );
 }
 
 .mesh-grid {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    linear-gradient(color-mix(in srgb, var(--color-cyan-300) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--color-cyan-300) 10%, transparent) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
 .image-wash {
   background:
-    linear-gradient(135deg, rgba(6, 78, 59, 0.82), rgba(16, 185, 129, 0.22)),
-    radial-gradient(circle at 70% 24%, #a7f3d0, transparent 28%), #0c2019;
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--color-sky-950) 88%, transparent),
+      color-mix(in srgb, var(--color-sky-400) 22%, transparent)
+    ),
+    radial-gradient(circle at 70% 24%, var(--color-cyan-300), transparent 28%),
+    var(--color-slate-950);
+}
+
+.technical-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
 .scrollbar-none {
@@ -87,8 +139,20 @@ select {
   display: none;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: 5.25rem;
+  }
+}
+
+@media (max-width: 767px) {
   .page-shell {
-    width: min(100% - 1.25rem, 78rem);
+    width: min(100% - 1.25rem, 82rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

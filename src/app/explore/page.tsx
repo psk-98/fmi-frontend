@@ -1,52 +1,54 @@
 import type { Metadata } from "next";
-import { Globe2, Images } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Images, SlidersHorizontal, Sparkles } from "lucide-react";
 
 import { GalleryCard } from "@/components/gallery/gallery-card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { getPublicGalleries } from "@/lib/server-api";
 
-export const metadata: Metadata = { title: "Explore" };
+export const metadata: Metadata = { title: "Discover" };
 
 export default async function ExplorePage() {
   const galleries = await getPublicGalleries();
 
   return (
-    <section className="page-shell py-14 sm:py-20">
-      <div className="grid items-end gap-8 border-b border-neutral-200 pb-12 lg:grid-cols-[1fr_auto]">
-        <div>
-          <Badge>
-            <Globe2 className="size-3" /> Public index
-          </Badge>
-          <h1 className="display-type mt-5 text-6xl sm:text-7xl">
-            Open collections.
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-neutral-500">
-            Browse approved frames from photographers and curators across the
-            FMI community.
-          </p>
-        </div>
-        <p className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-neutral-400">
-          {galleries.length.toString().padStart(2, "0")} galleries indexed
+    <section className="page-shell py-10 sm:py-16">
+      <div className="border-b border-sky-200 dark:border-slate-700 pb-10">
+        <p className="technical-label flex items-center gap-2 text-sky-700 dark:text-sky-300">
+          <span className="size-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400" /> Gallery / discover
         </p>
+        <div className="mt-4 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+          <div>
+            <h1 className="display-type text-4xl sm:text-6xl">Discover visual work.</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-500 dark:text-slate-400">
+              Curated public galleries, indexed faces, and approved visual studies from the FMI community.
+            </p>
+          </div>
+          <Badge variant="neutral">{galleries.length.toString().padStart(2, "0")} live galleries</Badge>
+        </div>
+
+        <div className="scrollbar-none mt-8 flex gap-2 overflow-x-auto pb-1">
+          <Badge variant="primary"><Sparkles className="size-3" /> Featured</Badge>
+          <Badge variant="neutral">Portraits</Badge>
+          <Badge variant="neutral">Collections</Badge>
+          <Badge variant="neutral">Public index</Badge>
+          <Badge variant="outline"><SlidersHorizontal className="size-3" /> Newest</Badge>
+        </div>
       </div>
 
       {galleries.length ? (
-        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {galleries.map((gallery) => (
-            <GalleryCard
-              key={gallery.uid}
-              gallery={gallery}
-              href={`/explore/galleries/${gallery.uid}`}
-            />
+            <GalleryCard key={gallery.uid} gallery={gallery} href={`/explore/galleries/${gallery.uid}`} />
           ))}
         </div>
       ) : (
-        <div className="mt-14 grid place-items-center rounded-[2rem] border border-dashed border-neutral-300 bg-white/50 px-6 py-24 text-center">
-          <Images className="size-10 text-emerald-500" />
-          <h2 className="mt-5 text-2xl font-bold">No public galleries yet</h2>
-          <p className="mt-2 max-w-md text-sm leading-6 text-neutral-500">
-            Public, approved collections will appear here automatically.
-          </p>
+        <div className="system-grid mt-10 grid place-items-center rounded-3xl border border-dashed border-sky-300 dark:border-slate-600 bg-sky-100/70 dark:bg-slate-800/70 px-6 py-24 text-center">
+          <Images className="size-10 text-sky-500 dark:text-sky-300" />
+          <h2 className="mt-5 text-xl font-black">No public galleries yet</h2>
+          <p className="mt-2 max-w-md text-xs leading-6 text-slate-500 dark:text-slate-400">Approved public collections will appear here automatically.</p>
+          <Button asChild className="mt-6"><Link href="/register">Create the first <ArrowRight /></Link></Button>
         </div>
       )}
     </section>

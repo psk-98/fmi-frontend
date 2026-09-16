@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+import { TOKEN_COOKIE } from "@/lib/auth";
 import { loginFormSchema, loginResponseSchema } from "@/lib/schemas";
-import { TOKEN_COOKIE } from "@/lib/server-api";
 
 export async function POST(request: Request) {
   const input = loginFormSchema.safeParse(
