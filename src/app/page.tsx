@@ -73,7 +73,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="page-shell py-20">
+      {/*<section className="page-shell py-20">
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="technical-label text-sky-700 dark:text-sky-300">Public index / live</p>
@@ -99,7 +99,7 @@ export default async function HomePage() {
             </p>
           </div>
         )}
-      </section>
+      </section>*/}
     </>
   );
 }
