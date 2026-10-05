@@ -69,7 +69,7 @@ export function SiteHeader({ user }: { user: User | null }) {
           </Link>
 
           <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
-            {publicLinks.map((link) => (
+            {/*{publicLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -80,7 +80,7 @@ export function SiteHeader({ user }: { user: User | null }) {
               >
                 {link.label}
               </Link>
-            ))}
+            ))}*/}
             {user ? (
               <>
                 <Link
